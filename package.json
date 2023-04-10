@@ -1,0 +1,24 @@
+{
+  "name": "drawio",
+  "version": "1.0.0",
+  "description": "About ----- draw.io, this project, is a configurable diagramming/whiteboarding visualization application. draw.io is jointly owned and developed by JGraph Ltd and draw.io AG.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "cd src/main/webapp && serve",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Harley-k/drawio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Harley-k/drawio/issues"
+  },
+  "homepage": "https://github.com/Harley-k/drawio#readme",
+  "devDependencies": {
+    "serve": "^14.2.0"
+  }
+}
