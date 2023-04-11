@@ -9,7 +9,7 @@
     <meta name="Keywords" content="drawio, diagram, online, flow chart, flowchart maker, uml, erd">
     <meta itemprop="name" content="draw.io - free flowchart maker and diagrams online">
 	<meta itemprop="description" content="draw.io is a free online diagramming application and flowchart maker . You can use it to create UML, entity relationship,
-		org charts, BPMN and BPM, database schema and networks. Also possible are telecommunication network, workflow, flowcharts, maps overlays and GIS, electronic 
+		org charts, BPMN and BPM, database schema and networks. Also possible are telecommunication network, workflow, flowcharts, maps overlays and GIS, electronic
 		circuit and social network diagrams.">
 	<meta itemprop="image" content="https://lh4.googleusercontent.com/-cLKEldMbT_E/Tx8qXDuw6eI/AAAAAAAAAAs/Ke0pnlk8Gpg/w500-h344-k/BPMN%2Bdiagram%2Brc2f.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -50,8 +50,12 @@
 					result[params[i].substring(0, idx)] = params[i].substring(idx + 1);
 				}
 			}
-			
+			// 默认开启开发模式
+			if (!result.hasOwnProperty('dev')) {
+				result['dev'] = 1
+			}
 			return result;
+			// end
 		})();
 		
 		// Forces CDN caches by passing URL parameters via URL hash
@@ -114,14 +118,14 @@
 			{
 				var s = document.createElement('meta');
 				
-				if (name != null) 
+				if (name != null)
 				{
 					s.setAttribute('name', name);
 				}
 
 				s.setAttribute('content', content);
 				
-				if (httpEquiv != null) 
+				if (httpEquiv != null)
 				{
 					s.setAttribute('http-equiv', httpEquiv);
 				}
@@ -243,7 +247,7 @@
 		{
 			if (mxScriptsLoaded && mxWinLoaded)
 			{
-				App.main();				
+				App.main();
 			}
 		};
 		
@@ -252,6 +256,7 @@
 		// Changes paths for local development environment
 		if (urlParams['dev'] == '1')
 		{
+			console.log(1)
 			// Used to request grapheditor/mxgraph sources in dev mode
 			var mxDevUrl = document.location.protocol + '//devhost.jgraph.com/drawio/src/main';
 			
@@ -271,7 +276,19 @@
 			}
 
 			mxForceIncludes = false;
-
+			
+			// ====> 开发模式文件指向本地
+			if (location.hostname == "localhost" || location.hostname == "127.0.0.1") {
+				drawDevUrl = `http://${location.host}/`;
+				geBasePath = `http://${location.host}/js/grapheditor`;
+				mxBasePath = `http://${location.host}/mxgraph`;
+				mxForceIncludes = true;
+				console.log(drawDevUrl,geBasePath,mxBasePath)
+			}
+			// ====> 开发模式文件指向本地
+			
+			
+			
 			mxscript(drawDevUrl + 'js/PreConfig.js');
 			mxscript(drawDevUrl + 'js/diagramly/Init.js');
 			mxscript(geBasePath + '/Init.js');
@@ -438,7 +455,7 @@
 	<div class="geBlock">
 		<h1>Flowchart Maker and Online Diagram Software</h1>
 		<p>
-			draw.io is free online diagram software. You can use it as a flowchart maker, network diagram software, to create UML online, as an ER diagram tool, 
+			draw.io is free online diagram software. You can use it as a flowchart maker, network diagram software, to create UML online, as an ER diagram tool,
 			to design database schema, to build BPMN online, as a circuit diagram maker, and more. draw.io can import .vsdx, Gliffy&trade; and Lucidchart&trade; files .
 		</p>
 		<h2 id="geStatus">Loading...</h2>
