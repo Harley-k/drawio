@@ -3080,7 +3080,7 @@ App.prototype.showSplash = function (force) {
 App.prototype.addLanguageMenu = function (elt, addLabel, right) {
   var img = null;
   var langMenu = this.menus.get('language');
-
+  return false
   if (langMenu != null) {
     img = document.createElement('div');
     img.setAttribute('title', mxResources.get('language'));

@@ -66,7 +66,7 @@
 
 		this.setCurrentSearchEntryLibrary('electrical', 'electrical\LogicGates');
 
-		this.addPaletteFunctions('electrical\LogicGates', ' / Logic Gates', false,
+		this.addPaletteFunctions('electrical\LogicGates', 'Electrical / Logic Gates', false,
 		[
 			this.createVertexTemplateEntry(mel + 'logic_gate;operation=and;', 100, 60, '', 'AND', null, null, this.getTagsForStencil(gnmel, 'and', dtmel).join(' ')),
 			this.createVertexTemplateEntry(mel + 'buffer2;', 100, 60, '', 'Buffer', null, null, this.getTagsForStencil(gnmel, 'buffer', dtmel).join(' ')),

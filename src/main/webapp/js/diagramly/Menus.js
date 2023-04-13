@@ -1070,13 +1070,14 @@ this.put('language', new Menu(mxUtils.bind(this, function(menu, parent)
       var menusCreateMenuBar = Menus.prototype.createMenubar;
       Menus.prototype.createMenubar = function (container) {
         var menubar = menusCreateMenuBar.apply(this, arguments);
-
         if ((urlParams['embed'] != '1' || urlParams['atlas'] == '1') &&
           menubar != null && Editor.enableSimpleTheme &&
           editorUi.getServiceName() != 'atlassian') {
           var themeMenu = this.get('appearance');
+          // var themeMenu = null;
 
           if (themeMenu != null) {
+            // 切换主题
             var elt = menubar.addMenu('', themeMenu.funct);
             elt.setAttribute('title', mxResources.get('appearance'));
             elt.className = 'geToolbarButton geAdaptiveAsset';
@@ -1084,6 +1085,7 @@ this.put('language', new Menu(mxUtils.bind(this, function(menu, parent)
             elt.style.backgroundRepeat = 'no-repeat';
             elt.style.backgroundSize = '100% 100%';
             elt.style.display = 'inline-block';
+            // elt.style.display = 'none';
             elt.style.cursor = 'pointer';
             elt.style.zIndex = '1';
 
@@ -1107,8 +1109,9 @@ this.put('language', new Menu(mxUtils.bind(this, function(menu, parent)
             var updateThemeElement = mxUtils.bind(this, function () {
               var iw = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 
-              elt.style.display = (Editor.currentTheme == 'atlas' || Editor.currentTheme == 'min' ||
-                Editor.currentTheme == 'sketch') ? 'none' : '';
+              // elt.style.display = (Editor.currentTheme == 'atlas' || Editor.currentTheme == 'min' ||
+              //   Editor.currentTheme == 'sketch') ? 'none' : '';
+              elt.style.display = 'none';
 
               if (Editor.currentTheme == 'simple') {
                 if (iw < 750) {
@@ -2465,14 +2468,13 @@ this.put('language', new Menu(mxUtils.bind(this, function(menu, parent)
       editorUi.userPanel.style.right = '10px';
       editorUi.userPanel.style.top = '10px';
     });
-
+/* 删除主题
     this.put('theme', new Menu(mxUtils.bind(this, function (menu, parent) {
       var theme = (urlParams['sketch'] == '1') ? 'sketch' : mxSettings.getUi();
 
       var item = menu.addItem(mxResources.get('automatic'), null, function () {
         editorUi.setCurrentTheme('');
       }, parent);
-
       if (theme != 'kennedy' && theme != 'atlas' &&
         theme != 'dark' && theme != 'simple' &&
         theme != 'sketch' && theme != 'min') {
@@ -2518,7 +2520,7 @@ this.put('language', new Menu(mxUtils.bind(this, function(menu, parent)
       if (theme == 'atlas') {
         menu.addCheckmark(item, Editor.checkmarkImage);
       }
-    })));
+    })));*/
 
     var renameAction = this.editorUi.actions.addAction('rename...', mxUtils.bind(this, function () {
       var file = this.editorUi.getCurrentFile();
@@ -3596,7 +3598,7 @@ this.put('language', new Menu(mxUtils.bind(this, function(menu, parent)
         menu.addSeparator(parent);
 
         if (!editorUi.isOfflineApp() && isLocalStorage) {
-          this.addMenuItem(menu, 'plugins', parent);
+          // this.addMenuItem(menu, 'plugins', parent);
         }
 
         this.addMenuItems(menu, ['-', 'editDiagram'], parent);

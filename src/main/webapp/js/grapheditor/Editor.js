@@ -432,14 +432,13 @@ Editor.prototype.defaultGraphOverflow = 'hidden';
  * Initializes the environment.
  */
 Editor.prototype.init = function() {
-  // 获取数据
-  console.log('init',urlParams)
   if (urlParams['_fileId']) {
-    console.log('fileid')
-    // 获取数据
+    const xmlString = localStorage.getItem('data')
+    localStorage.clear()
+    window.indexedDB.deleteDatabase('database')
+
+    this.graph.getModel().clear();
     setTimeout(() => {
-      debugger
-      const xmlString = localStorage.getItem('data')
       // const xmlData =
       console.log(xmlString)
       // 将 XML 数据加载到编辑器中
@@ -450,6 +449,10 @@ Editor.prototype.init = function() {
       // 刷新图例显示
       this.graph.refresh();
     }, 1000)
+  }else{
+    setTimeout(()=>{
+      document.write('未找到文件')
+    })
   }
 
 };
