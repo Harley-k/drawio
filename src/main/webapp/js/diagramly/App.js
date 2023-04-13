@@ -3623,11 +3623,7 @@ App.prototype.saveLibrary = function (name, images, file, mode, noSpin, noReload
  * Adds the label menu items to the given menu and parent.
  */
 App.prototype.saveFile = function (forceDialog, success) {
-  // debugger
   var file = this.getCurrentFile();
-  this.save(file.getTitle(), done);
-
-  // return false
 
   if (file != null) {
     // FIXME: Invoke for local files
