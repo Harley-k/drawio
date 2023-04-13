@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2006-2020, JGraph Ltd
- * 
+ *
  * This provides an indirection to make sure the mxClient.js
  * loads before the dependent classes below are loaded. This
  * is used for development mode where the JS is in separate
@@ -45,7 +45,7 @@ if (!mxIsElectron && location.protocol !== 'http:')
 			'\'sha256-nzHi23DROym7G011m6y0DyDd9mvQL2hSJ0Gy3g2T/5Q=\' ' + // dropins.js
 			'\'sha256-xjAW8oXqJlP0CWqxT9s80kgOtOjvENMmfnnfulL6p1A=\' ' + // gapi
 			'\'unsafe-hashes\'; '; // Required for hashes for style attribute
-		
+
 		var directives = 'connect-src %connect-src% \'self\' https://*.draw.io https://*.diagrams.net ' +
 			'https://*.googleapis.com wss://app.diagrams.net wss://*.pusher.com https://*.pusher.com ' +
 			'https://api.github.com https://raw.githubusercontent.com https://gitlab.com ' +
@@ -63,7 +63,7 @@ if (!mxIsElectron && location.protocol !== 'http:')
 			'base-uri \'none\';' +
 			'child-src \'self\';' +
 			'object-src \'none\';';
-			
+
 		var csp = hashes + directives;
 		var devCsp = csp.
 			// Adds script tags and loads shapes with eval
@@ -117,7 +117,7 @@ if (!mxIsElectron && location.protocol !== 'http:')
 			console.log('import.diagrams.net:', 'default-src \'self\'; worker-src blob:; img-src \'self\' blob: data: https://www.lucidchart.com ' +
 					'https://app.lucidchart.com https://lucid.app; style-src \'self\' \'unsafe-inline\'; frame-src https://www.lucidchart.com https://app.lucidchart.com https://lucid.app;');
 			console.log('Development:', devCsp);
-			
+
 			console.log('Header Worker:', 'let securityHeaders =', JSON.stringify({
 				online: {
 					"Content-Security-Policy" : app_diagrams_net,
