@@ -88,13 +88,38 @@ Actions.prototype.init = function () {
     // 保存数据
     // ui.saveFile(false);
     var graph = ui.editor.graph;
+    const canvas = graph.view.canvas
+    const svg = graph.view.getCanvas()
     var encoder = new mxCodec();
     var xmlData = encoder.encode(graph.getModel());
-   const dom = document.createElement('div')
-    dom.appendChild(xmlData)
-    localStorage.setItem('data',dom.innerHTML)
-    // ui.saveFile(false);
 
+    const dom = document.createElement('div')
+    dom.appendChild(xmlData)
+    // graph 获取 png 数据
+
+    // var tmp = new LocalFile(ui, null, name);
+    // tmp.saveImage();
+// Svg 数据
+    const svgData = graph.getSvg()
+
+    const svgString = new XMLSerializer().serializeToString(svgData); // 将SVG DOM元素转换为SVG字符串
+    console.log(svgString)
+    const _canvas = document.createElement('canvas'); // 创建Canvas元素
+    _canvas.width = svgData.width.baseVal.value; // 设置Canvas大小
+    _canvas.height = svgData.height.baseVal.value;
+    const ctx = _canvas.getContext('2d');
+    const img = document.createElement('img'); // 创建Image元素
+    img.src = `data:image/svg+xml;utf8,${encodeURIComponent(svgString)}`; // 设置Image对象的源为SVG字符串
+
+    img.onload = () => {
+      ctx.drawImage(img, 0, 0); // 将SVG绘制到Canvas上
+      const pngDataUrl = _canvas.toDataURL('image/png'); // 将Canvas转换为PNG格式的DataURL
+      // xml数据
+      localStorage.setItem('data', dom.innerHTML)
+      // 使用pngDataUrl进行后续操作，例如保存或显示PNG图像
+      // svg 转换 base64 png
+      console.log(pngDataUrl)
+    };
   });
   this.addAction('save', function () {
     ui.saveFile(false);

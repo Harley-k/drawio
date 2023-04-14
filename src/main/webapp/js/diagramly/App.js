@@ -3710,7 +3710,6 @@ App.prototype.saveFile = function (forceDialog, success) {
                 }
               } else if (mode == 'download') {
                 var tmp = new LocalFile(this, null, name);
-                console.log(tmp)
                 tmp.save();
               } else if (mode == '_blank') {
                 window.openFile = new OpenFile(function () {
