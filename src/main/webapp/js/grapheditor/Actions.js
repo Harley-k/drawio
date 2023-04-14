@@ -103,7 +103,7 @@ Actions.prototype.init = function () {
     const svgData = graph.getSvg()
 
     const svgString = new XMLSerializer().serializeToString(svgData); // 将SVG DOM元素转换为SVG字符串
-    console.log(svgString)
+    // console.log(svgString)
     const _canvas = document.createElement('canvas'); // 创建Canvas元素
     _canvas.width = svgData.width.baseVal.value; // 设置Canvas大小
     _canvas.height = svgData.height.baseVal.value;
