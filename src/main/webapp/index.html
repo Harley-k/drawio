@@ -279,10 +279,14 @@
 			
 			// ====> 开发模式文件指向本地
 			// if (location.hostname == "localhost" || location.hostname == "127.0.0.1") {
-				drawDevUrl = `http://${location.host}/`;
-				geBasePath = `http://${location.host}/js/grapheditor`;
-				mxBasePath = `http://${location.host}/mxgraph`;
-				mxForceIncludes = true;
+			// 	drawDevUrl = `http://${location.host}/`;
+			// 	geBasePath = `http://${location.host}/js/grapheditor`;
+			// 	mxBasePath = `http://${location.host}/mxgraph`;
+			geBasePath = './js/grapheditor';
+			mxBasePath = './mxgraph';
+			drawDevUrl = './';
+			mxForceIncludes = true;
+			
 			// }
 			// ====> 开发模式文件指向本地
 			

@@ -14,3 +14,4 @@ urlParams['sync'] = 'manual';
 urlParams['lang'] = 'zh';
 urlParams['libs'] = 'electrical';
 urlParams['dev'] = '1';
+// urlParams['noFileMenu'] = '1';

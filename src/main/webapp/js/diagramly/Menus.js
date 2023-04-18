@@ -3,6 +3,7 @@
  * Copyright (c) 2006-2020, draw.io AG
  */
 (function () {
+
   // Adds scrollbars for menus that exceed the page height
   var mxPopupMenuShowMenu = mxPopupMenu.prototype.showMenu;
   mxPopupMenu.prototype.showMenu = function () {
@@ -10,7 +11,6 @@
     this.div.style.overflowX = 'hidden';
     var h0 = Math.max(document.body.clientHeight, document.documentElement.clientHeight);
     this.div.style.maxHeight = (h0 - (EditorUi.isElectronApp ? 50 : 10)) + 'px'; //In Electron and without titlebar, the top item is not selectable
-
     mxPopupMenuShowMenu.apply(this, arguments);
   };
 
@@ -2279,7 +2279,6 @@ this.put('language', new Menu(mxUtils.bind(this, function(menu, parent)
           });
         }
       });
-
       var getMimeType = mxUtils.bind(this, function (filename) {
         var mime = 'text/xml';
 
@@ -2322,51 +2321,51 @@ this.put('language', new Menu(mxUtils.bind(this, function(menu, parent)
       };
 
       if (typeof (google) != 'undefined' && typeof (google.picker) != 'undefined') {
-        if (editorUi.drive != null) {
-          // Requires special arguments for libraries and realtime
-          menu.addItem(mxResources.get('googleDrive') + '...', null, function () {
-            pickFileFromService(editorUi.drive);
-          }, parent);
-        } else if (googleEnabled && typeof window.DriveClient === 'function') {
-          menu.addItem(mxResources.get('googleDrive') + ' (' + mxResources.get('loading') + '...)', null, function () {
-            // do nothing
-          }, parent, null, false);
-        }
+        // if (editorUi.drive != null) {
+        //   // Requires special arguments for libraries and realtime
+        //   menu.addItem(mxResources.get('googleDrive') + '...', null, function () {
+        //     pickFileFromService(editorUi.drive);
+        //   }, parent);
+        // } else if (googleEnabled && typeof window.DriveClient === 'function') {
+        //   menu.addItem(mxResources.get('googleDrive') + ' (' + mxResources.get('loading') + '...)', null, function () {
+        //     // do nothing
+        //   }, parent, null, false);
+        // }
       }
 
-      if (editorUi.oneDrive != null) {
-        menu.addItem(mxResources.get('oneDrive') + '...', null, function () {
-          pickFileFromService(editorUi.oneDrive);
-        }, parent);
-      } else if (oneDriveEnabled && typeof window.OneDriveClient === 'function') {
-        menu.addItem(mxResources.get('oneDrive') + ' (' + mxResources.get('loading') + '...)', null, function () {
-          // do nothing
-        }, parent, null, false);
-      }
+      // if (editorUi.oneDrive != null) {
+      //   menu.addItem(mxResources.get('oneDrive') + '...', null, function () {
+      //     pickFileFromService(editorUi.oneDrive);
+      //   }, parent);
+      // } else if (oneDriveEnabled && typeof window.OneDriveClient === 'function') {
+      //   menu.addItem(mxResources.get('oneDrive') + ' (' + mxResources.get('loading') + '...)', null, function () {
+      //     // do nothing
+      //   }, parent, null, false);
+      // }
+      //
+      // if (editorUi.dropbox != null) {
+      //   menu.addItem(mxResources.get('dropbox') + '...', null, function () {
+      //     pickFileFromService(editorUi.dropbox);
+      //   }, parent);
+      // } else if (dropboxEnabled && typeof window.DropboxClient === 'function') {
+      //   menu.addItem(mxResources.get('dropbox') + ' (' + mxResources.get('loading') + '...)', null, function () {
+      //     // do nothing
+      //   }, parent, null, false);
+      // }
+      //
+      // menu.addSeparator(parent);
 
-      if (editorUi.dropbox != null) {
-        menu.addItem(mxResources.get('dropbox') + '...', null, function () {
-          pickFileFromService(editorUi.dropbox);
-        }, parent);
-      } else if (dropboxEnabled && typeof window.DropboxClient === 'function') {
-        menu.addItem(mxResources.get('dropbox') + ' (' + mxResources.get('loading') + '...)', null, function () {
-          // do nothing
-        }, parent, null, false);
-      }
-
-      menu.addSeparator(parent);
-
-      if (editorUi.gitHub != null) {
-        menu.addItem(mxResources.get('github') + '...', null, function () {
-          pickFileFromService(editorUi.gitHub);
-        }, parent);
-      }
-
-      if (editorUi.gitLab != null) {
-        menu.addItem(mxResources.get('gitlab') + '...', null, function () {
-          pickFileFromService(editorUi.gitLab);
-        }, parent);
-      }
+      // if (editorUi.gitHub != null) {
+      //   menu.addItem(mxResources.get('github') + '...', null, function () {
+      //     pickFileFromService(editorUi.gitHub);
+      //   }, parent);
+      // }
+      //
+      // if (editorUi.gitLab != null) {
+      //   menu.addItem(mxResources.get('gitlab') + '...', null, function () {
+      //     pickFileFromService(editorUi.gitLab);
+      //   }, parent);
+      // }
 
       if (editorUi.trello != null) {
         menu.addItem(mxResources.get('trello') + '...', null, function () {
@@ -2415,6 +2414,7 @@ this.put('language', new Menu(mxUtils.bind(this, function(menu, parent)
         }, parent);
       }
     }))).isEnabled = isGraphEnabled;
+/*
 
     this.put('appearance', new Menu(mxUtils.bind(this, function (menu, parent) {
       var iw = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
@@ -2456,6 +2456,7 @@ this.put('language', new Menu(mxUtils.bind(this, function(menu, parent)
         this.addMenuItems(menu, ['-', 'toggleSimpleMode'], parent);
       }
     })));
+*/
 
     editorUi.actions.addAction('addToScratchpad', function (evt) {
       if (!graph.isSelectionEmpty() && editorUi.addSelectionToScratchpad != null) {
@@ -2930,11 +2931,11 @@ this.put('language', new Menu(mxUtils.bind(this, function(menu, parent)
             var modeKey = entry.mode;
 
             // Google and oneDrive use different keys
-            if (modeKey == App.MODE_GOOGLE) {
-              modeKey = 'googleDrive';
-            } else if (modeKey == App.MODE_ONEDRIVE) {
-              modeKey = 'oneDrive';
-            }
+            // if (modeKey == App.MODE_GOOGLE) {
+            //   modeKey = 'googleDrive';
+            // } else if (modeKey == App.MODE_ONEDRIVE) {
+            //   modeKey = 'oneDrive';
+            // }
 
             menu.addItem(entry.title + ' (' + mxResources.get(modeKey) + ')', null, function () {
               editorUi.loadFile(entry.id);
@@ -2951,49 +2952,49 @@ this.put('language', new Menu(mxUtils.bind(this, function(menu, parent)
     }));
 
     this.put('openFrom', new Menu(function (menu, parent) {
-      if (editorUi.drive != null) {
-        menu.addItem(mxResources.get('googleDrive') + '...', null, function () {
-          editorUi.pickFile(App.MODE_GOOGLE);
-        }, parent);
-      } else if (googleEnabled && typeof window.DriveClient === 'function') {
-        menu.addItem(mxResources.get('googleDrive') + ' (' + mxResources.get('loading') + '...)', null, function () {
-          // do nothing
-        }, parent, null, false);
-      }
+      // if (editorUi.drive != null) {
+      //   menu.addItem(mxResources.get('googleDrive') + '...', null, function () {
+      //     editorUi.pickFile(App.MODE_GOOGLE);
+      //   }, parent);
+      // } else if (googleEnabled && typeof window.DriveClient === 'function') {
+      //   menu.addItem(mxResources.get('googleDrive') + ' (' + mxResources.get('loading') + '...)', null, function () {
+      //     // do nothing
+      //   }, parent, null, false);
+      // }
 
-      if (editorUi.oneDrive != null) {
-        menu.addItem(mxResources.get('oneDrive') + '...', null, function () {
-          editorUi.pickFile(App.MODE_ONEDRIVE);
-        }, parent);
-      } else if (oneDriveEnabled && typeof window.OneDriveClient === 'function') {
-        menu.addItem(mxResources.get('oneDrive') + ' (' + mxResources.get('loading') + '...)', null, function () {
-          // do nothing
-        }, parent, null, false);
-      }
+      // if (editorUi.oneDrive != null) {
+      //   menu.addItem(mxResources.get('oneDrive') + '...', null, function () {
+      //     editorUi.pickFile(App.MODE_ONEDRIVE);
+      //   }, parent);
+      // } else if (oneDriveEnabled && typeof window.OneDriveClient === 'function') {
+      //   menu.addItem(mxResources.get('oneDrive') + ' (' + mxResources.get('loading') + '...)', null, function () {
+      //     // do nothing
+      //   }, parent, null, false);
+      // }
 
-      if (editorUi.dropbox != null) {
-        menu.addItem(mxResources.get('dropbox') + '...', null, function () {
-          editorUi.pickFile(App.MODE_DROPBOX);
-        }, parent);
-      } else if (dropboxEnabled && typeof window.DropboxClient === 'function') {
-        menu.addItem(mxResources.get('dropbox') + ' (' + mxResources.get('loading') + '...)', null, function () {
-          // do nothing
-        }, parent, null, false);
-      }
+      // if (editorUi.dropbox != null) {
+      //   menu.addItem(mxResources.get('dropbox') + '...', null, function () {
+      //     editorUi.pickFile(App.MODE_DROPBOX);
+      //   }, parent);
+      // } else if (dropboxEnabled && typeof window.DropboxClient === 'function') {
+      //   menu.addItem(mxResources.get('dropbox') + ' (' + mxResources.get('loading') + '...)', null, function () {
+      //     // do nothing
+      //   }, parent, null, false);
+      // }
 
-      menu.addSeparator(parent);
+      // menu.addSeparator(parent);
 
-      if (editorUi.gitHub != null) {
-        menu.addItem(mxResources.get('github') + '...', null, function () {
-          editorUi.pickFile(App.MODE_GITHUB);
-        }, parent);
-      }
-
-      if (editorUi.gitLab != null) {
-        menu.addItem(mxResources.get('gitlab') + '...', null, function () {
-          editorUi.pickFile(App.MODE_GITLAB);
-        }, parent);
-      }
+      // if (editorUi.gitHub != null) {
+      //   menu.addItem(mxResources.get('github') + '...', null, function () {
+      //     editorUi.pickFile(App.MODE_GITHUB);
+      //   }, parent);
+      // }
+      //
+      // if (editorUi.gitLab != null) {
+      //   menu.addItem(mxResources.get('gitlab') + '...', null, function () {
+      //     editorUi.pickFile(App.MODE_GITLAB);
+      //   }, parent);
+      // }
 
       if (editorUi.trello != null) {
         menu.addItem(mxResources.get('trello') + '...', null, function () {
@@ -3043,51 +3044,51 @@ this.put('language', new Menu(mxUtils.bind(this, function(menu, parent)
 
     if (Editor.enableCustomLibraries) {
       this.put('newLibrary', new Menu(function (menu, parent) {
-        if (typeof (google) != 'undefined' && typeof (google.picker) != 'undefined') {
-          if (editorUi.drive != null) {
-            menu.addItem(mxResources.get('googleDrive') + '...', null, function () {
-              editorUi.showLibraryDialog(null, null, null, null, App.MODE_GOOGLE);
-            }, parent);
-          } else if (googleEnabled && typeof window.DriveClient === 'function') {
-            menu.addItem(mxResources.get('googleDrive') + ' (' + mxResources.get('loading') + '...)', null, function () {
-              // do nothing
-            }, parent, null, false);
-          }
-        }
+        // if (typeof (google) != 'undefined' && typeof (google.picker) != 'undefined') {
+        //   if (editorUi.drive != null) {
+        //     menu.addItem(mxResources.get('googleDrive') + '...', null, function () {
+        //       editorUi.showLibraryDialog(null, null, null, null, App.MODE_GOOGLE);
+        //     }, parent);
+        //   } else if (googleEnabled && typeof window.DriveClient === 'function') {
+        //     menu.addItem(mxResources.get('googleDrive') + ' (' + mxResources.get('loading') + '...)', null, function () {
+        //       // do nothing
+        //     }, parent, null, false);
+        //   }
+        // }
 
-        if (editorUi.oneDrive != null) {
-          menu.addItem(mxResources.get('oneDrive') + '...', null, function () {
-            editorUi.showLibraryDialog(null, null, null, null, App.MODE_ONEDRIVE);
-          }, parent);
-        } else if (oneDriveEnabled && typeof window.OneDriveClient === 'function') {
-          menu.addItem(mxResources.get('oneDrive') + ' (' + mxResources.get('loading') + '...)', null, function () {
-            // do nothing
-          }, parent, null, false);
-        }
+        // if (editorUi.oneDrive != null) {
+        //   menu.addItem(mxResources.get('oneDrive') + '...', null, function () {
+        //     editorUi.showLibraryDialog(null, null, null, null, App.MODE_ONEDRIVE);
+        //   }, parent);
+        // } else if (oneDriveEnabled && typeof window.OneDriveClient === 'function') {
+        //   menu.addItem(mxResources.get('oneDrive') + ' (' + mxResources.get('loading') + '...)', null, function () {
+        //     // do nothing
+        //   }, parent, null, false);
+        // }
 
-        if (editorUi.dropbox != null) {
-          menu.addItem(mxResources.get('dropbox') + '...', null, function () {
-            editorUi.showLibraryDialog(null, null, null, null, App.MODE_DROPBOX);
-          }, parent);
-        } else if (dropboxEnabled && typeof window.DropboxClient === 'function') {
-          menu.addItem(mxResources.get('dropbox') + ' (' + mxResources.get('loading') + '...)', null, function () {
-            // do nothing
-          }, parent, null, false);
-        }
+        // if (editorUi.dropbox != null) {
+        //   menu.addItem(mxResources.get('dropbox') + '...', null, function () {
+        //     editorUi.showLibraryDialog(null, null, null, null, App.MODE_DROPBOX);
+        //   }, parent);
+        // } else if (dropboxEnabled && typeof window.DropboxClient === 'function') {
+        //   menu.addItem(mxResources.get('dropbox') + ' (' + mxResources.get('loading') + '...)', null, function () {
+        //     // do nothing
+        //   }, parent, null, false);
+        // }
+        //
+        // menu.addSeparator(parent);
 
-        menu.addSeparator(parent);
-
-        if (editorUi.gitHub != null) {
-          menu.addItem(mxResources.get('github') + '...', null, function () {
-            editorUi.showLibraryDialog(null, null, null, null, App.MODE_GITHUB);
-          }, parent);
-        }
-
-        if (editorUi.gitLab != null) {
-          menu.addItem(mxResources.get('gitlab') + '...', null, function () {
-            editorUi.showLibraryDialog(null, null, null, null, App.MODE_GITLAB);
-          }, parent);
-        }
+        // if (editorUi.gitHub != null) {
+        //   menu.addItem(mxResources.get('github') + '...', null, function () {
+        //     editorUi.showLibraryDialog(null, null, null, null, App.MODE_GITHUB);
+        //   }, parent);
+        // }
+        //
+        // if (editorUi.gitLab != null) {
+        //   menu.addItem(mxResources.get('gitlab') + '...', null, function () {
+        //     editorUi.showLibraryDialog(null, null, null, null, App.MODE_GITLAB);
+        //   }, parent);
+        // }
 
         if (editorUi.trello != null) {
           menu.addItem(mxResources.get('trello') + '...', null, function () {
@@ -3116,51 +3117,51 @@ this.put('language', new Menu(mxUtils.bind(this, function(menu, parent)
       }));
 
       this.put('openLibraryFrom', new Menu(function (menu, parent) {
-        if (typeof (google) != 'undefined' && typeof (google.picker) != 'undefined') {
-          if (editorUi.drive != null) {
-            menu.addItem(mxResources.get('googleDrive') + '...', null, function () {
-              editorUi.pickLibrary(App.MODE_GOOGLE);
-            }, parent);
-          } else if (googleEnabled && typeof window.DriveClient === 'function') {
-            menu.addItem(mxResources.get('googleDrive') + ' (' + mxResources.get('loading') + '...)', null, function () {
-              // do nothing
-            }, parent, null, false);
-          }
-        }
+        // if (typeof (google) != 'undefined' && typeof (google.picker) != 'undefined') {
+        //   if (editorUi.drive != null) {
+        //     menu.addItem(mxResources.get('googleDrive') + '...', null, function () {
+        //       editorUi.pickLibrary(App.MODE_GOOGLE);
+        //     }, parent);
+        //   } else if (googleEnabled && typeof window.DriveClient === 'function') {
+        //     menu.addItem(mxResources.get('googleDrive') + ' (' + mxResources.get('loading') + '...)', null, function () {
+        //       // do nothing
+        //     }, parent, null, false);
+        //   }
+        // }
 
-        if (editorUi.oneDrive != null) {
-          menu.addItem(mxResources.get('oneDrive') + '...', null, function () {
-            editorUi.pickLibrary(App.MODE_ONEDRIVE);
-          }, parent);
-        } else if (oneDriveEnabled && typeof window.OneDriveClient === 'function') {
-          menu.addItem(mxResources.get('oneDrive') + ' (' + mxResources.get('loading') + '...)', null, function () {
-            // do nothing
-          }, parent, null, false);
-        }
+        // if (editorUi.oneDrive != null) {
+        //   menu.addItem(mxResources.get('oneDrive') + '...', null, function () {
+        //     editorUi.pickLibrary(App.MODE_ONEDRIVE);
+        //   }, parent);
+        // } else if (oneDriveEnabled && typeof window.OneDriveClient === 'function') {
+        //   menu.addItem(mxResources.get('oneDrive') + ' (' + mxResources.get('loading') + '...)', null, function () {
+        //     // do nothing
+        //   }, parent, null, false);
+        // }
 
-        if (editorUi.dropbox != null) {
-          menu.addItem(mxResources.get('dropbox') + '...', null, function () {
-            editorUi.pickLibrary(App.MODE_DROPBOX);
-          }, parent);
-        } else if (dropboxEnabled && typeof window.DropboxClient === 'function') {
-          menu.addItem(mxResources.get('dropbox') + ' (' + mxResources.get('loading') + '...)', null, function () {
-            // do nothing
-          }, parent, null, false);
-        }
+        // if (editorUi.dropbox != null) {
+        //   menu.addItem(mxResources.get('dropbox') + '...', null, function () {
+        //     editorUi.pickLibrary(App.MODE_DROPBOX);
+        //   }, parent);
+        // } else if (dropboxEnabled && typeof window.DropboxClient === 'function') {
+        //   menu.addItem(mxResources.get('dropbox') + ' (' + mxResources.get('loading') + '...)', null, function () {
+        //     // do nothing
+        //   }, parent, null, false);
+        // }
+        //
+        // menu.addSeparator(parent);
 
-        menu.addSeparator(parent);
-
-        if (editorUi.gitHub != null) {
-          menu.addItem(mxResources.get('github') + '...', null, function () {
-            editorUi.pickLibrary(App.MODE_GITHUB);
-          }, parent);
-        }
-
-        if (editorUi.gitLab != null) {
-          menu.addItem(mxResources.get('gitlab') + '...', null, function () {
-            editorUi.pickLibrary(App.MODE_GITLAB);
-          }, parent);
-        }
+        // if (editorUi.gitHub != null) {
+        //   menu.addItem(mxResources.get('github') + '...', null, function () {
+        //     editorUi.pickLibrary(App.MODE_GITHUB);
+        //   }, parent);
+        // }
+        //
+        // if (editorUi.gitLab != null) {
+        //   menu.addItem(mxResources.get('gitlab') + '...', null, function () {
+        //     editorUi.pickLibrary(App.MODE_GITLAB);
+        //   }, parent);
+        // }
 
         if (editorUi.trello != null) {
           menu.addItem(mxResources.get('trello') + '...', null, function () {

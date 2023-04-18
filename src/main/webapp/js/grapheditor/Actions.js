@@ -102,23 +102,23 @@ Actions.prototype.init = function () {
 // Svg 数据
     const svgData = graph.getSvg()
 
-    const svgString = new XMLSerializer().serializeToString(svgData); // 将SVG DOM元素转换为SVG字符串
-    // console.log(svgString)
-    const _canvas = document.createElement('canvas'); // 创建Canvas元素
-    _canvas.width = svgData.width.baseVal.value; // 设置Canvas大小
+    const svgString = new XMLSerializer().serializeToString(svgData);
+    const _canvas = document.createElement('canvas');
+    _canvas.width = svgData.width.baseVal.value;
     _canvas.height = svgData.height.baseVal.value;
     const ctx = _canvas.getContext('2d');
-    const img = document.createElement('img'); // 创建Image元素
-    img.src = `data:image/svg+xml;utf8,${encodeURIComponent(svgString)}`; // 设置Image对象的源为SVG字符串
+    const img = document.createElement('img');
+    img.src = `data:image/svg+xml;utf8,${encodeURIComponent(svgString)}`;
 
     img.onload = () => {
-      ctx.drawImage(img, 0, 0); // 将SVG绘制到Canvas上
-      const pngDataUrl = _canvas.toDataURL('image/png'); // 将Canvas转换为PNG格式的DataURL
+      ctx.drawImage(img, 0, 0);
+      const pngDataUrl = _canvas.toDataURL('image/png');
       // xml数据
       localStorage.setItem('data', dom.innerHTML)
       // 使用pngDataUrl进行后续操作，例如保存或显示PNG图像
       // svg 转换 base64 png
-      console.log(pngDataUrl)
+      // LocalFile.rename('测试')
+      console.log(pngDataUrl,svgData,urlParams,this)
     };
   });
   this.addAction('save', function () {
