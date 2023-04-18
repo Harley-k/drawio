@@ -1545,6 +1545,28 @@ App.prototype.init = function () {
   if (this.editor.graph.isViewer()) {
     this.initializeViewerMode();
   }
+  // 加载数据
+  if (urlParams['_fileId']) {
+    debugger
+    const xmlString = localStorage.getItem('data')
+    // localStorage.clear()
+    // window.indexedDB.deleteDatabase('database')
+
+    this.editor.graph.getModel().clear();
+    setTimeout(() => {
+      this.defaultFilename = '测试'
+      var doc = mxUtils.parseXml(xmlString || '');
+      this.editor.setGraphXml(doc.documentElement)
+      this.editor.setModified(false)
+      // // 刷新图例显示
+      this.editor.graph.refresh();
+      // console.log(this.getCurrentFile())
+      const file = this.getCurrentFile()
+      file.rename('测试')
+    }, 1000)
+  } else {
+    window.close()
+  }
 };
 
 /**

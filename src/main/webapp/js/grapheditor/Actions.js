@@ -119,6 +119,10 @@ Actions.prototype.init = function () {
       // svg 转换 base64 png
       // LocalFile.rename('测试')
       console.log(pngDataUrl,svgData,urlParams,this)
+      debugger
+
+      window.close()
+
     };
   });
   this.addAction('save', function () {

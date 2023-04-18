@@ -401,25 +401,7 @@ Editor.prototype.defaultGraphOverflow = 'hidden';
  * Initializes the environment.
  */
 Editor.prototype.init = function () {
-  if (urlParams['_fileId']) {
-    const xmlString = localStorage.getItem('data')
-    // localStorage.clear()
-    // window.indexedDB.deleteDatabase('database')
 
-    this.graph.getModel().clear();
-    setTimeout(() => {
-      var doc = mxUtils.parseXml(xmlString || '');
-      this.setGraphXml(doc.documentElement)
-      this.setModified(false)
-      // // 刷新图例显示
-      this.graph.refresh();
-      this.setAutosave(true)
-    }, 1000)
-  } else {
-    setTimeout(() => {
-      document.write('未找到文件')
-    })
-  }
 
 };
 
