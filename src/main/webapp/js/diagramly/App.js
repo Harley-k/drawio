@@ -12,6 +12,58 @@
  * @param {number} y Y-coordinate of the point.
  */
 App = function (editor, container, lightbox) {
+  const listener = mxUtils.bind(this, function (e) {
+    const getData = e.data || {};
+    const {type, data, title} = getData
+    // console.log(type, data, title)
+
+    if (type == 'edit') {
+      this.defaultFilename = title
+      var doc = mxUtils.parseXml(data || '<mxGraphModel><root><mxCell id="0"></mxCell><mxCell id="1" parent="0"></mxCell></root></mxGraphModel>');
+      this.editor.setGraphXml(doc.documentElement)
+      const file = this.getCurrentFile()
+      file.rename(title || '画板')
+      // // 刷新图例显示
+      // this.editor.getOrCreateFilename()
+      this.editor.graph.refresh();
+    }
+    if (type === 'getInfo') {
+      const fileName = this.getCurrentFile().title
+      const graph = this.editor.graph;
+      const canvas = graph.view.canvas
+      const svg = graph.view.getCanvas()
+      const encoder = new mxCodec();
+      const xmlData = encoder.encode(graph.getModel());
+      const dom = document.createElement('div')
+      dom.appendChild(xmlData)
+      const svgData = graph.getSvg()
+      // console.log('xxx:', )
+      // const svgString = new XMLSerializer().serializeToString(svgData);
+      const svgString = Editor.createSvgDataUri(mxUtils.getXml(svgData))
+      console.log(svgString)
+      const _canvas = document.createElement('canvas');
+      _canvas.width = svgData.width.baseVal.value;
+      _canvas.height = svgData.height.baseVal.value;
+      top.postMessage({
+        fileName, file: dom.innerHTML, pngBase64: svgString,
+        type: 'submit'
+      })
+      const ctx = _canvas.getContext('2d');
+      const img = document.createElement('img');
+      img.src = svgString;
+      img.onload = () => {
+        ctx.drawImage(img, 0, 0);
+        const pngBase64 = _canvas.toDataURL('image/png');
+
+        // window.close()
+
+      };
+    }
+
+  })
+  window.addEventListener('message', listener);
+
+
   EditorUi.call(this, editor, container, (lightbox != null) ? lightbox :
     (urlParams['lightbox'] == '1' || (uiTheme == 'min' &&
       urlParams['chrome'] != '0')));
@@ -51,7 +103,6 @@ App = function (editor, container, lightbox) {
 
   // Logs changes to autosave
   this.editor.addListener('autosaveChanged', mxUtils.bind(this, function () {
-    var file = this.getCurrentFile();
 
     if (file != null) {
       EditorUi.logEvent({
@@ -148,6 +199,7 @@ App = function (editor, container, lightbox) {
 
   this.load();
 };
+
 
 /**
  * Timeout error
@@ -434,15 +486,16 @@ App.getStoredMode = function () {
         // Loads dropbox for all browsers but IE8 and below (no CORS) if not disabled or if enabled and in embed mode
         // KNOWN: Picker does not work in IE11 (https://dropbox.zendesk.com/requests/1650781)
         if (typeof window.DropboxClient === 'function') {
+          return false
           if (urlParams['db'] != '0' && isSvgBrowser &&
             (document.documentMode == null || document.documentMode > 9)) {
             // Immediately loads client
             if (App.mode == App.MODE_DROPBOX || (window.location.hash != null &&
               window.location.hash.substring(0, 2) == '#D')) {
-              mxscript(App.DROPBOX_URL, function () {
-                // Must load this after the dropbox SDK since they use the same namespace
-                mxscript(App.DROPINS_URL, null, 'dropboxjs', App.DROPBOX_APPKEY, true);
-              });
+              // mxscript(App.DROPBOX_URL, function () {
+              //   // Must load this after the dropbox SDK since they use the same namespace
+              //   mxscript(App.DROPINS_URL, null, 'dropboxjs', App.DROPBOX_APPKEY, true);
+              // });
             } else if (urlParams['chrome'] == '0') {
               window.DropboxClient = null;
             }
@@ -489,7 +542,6 @@ App.getStoredMode = function () {
           }
         }
       }
-
 
 
     }
@@ -615,7 +667,7 @@ App.main = function (callback, createUi) {
 
           if (CryptoJS.MD5(content).toString() != '69c25556b6237c57cdb7d017147af34b') {
             console.log('Change main script MD5 in the previous line:', CryptoJS.MD5(content).toString());
-            alert('[Dev] Main script change requires update of CSP');
+            // alert('[Dev] Main script change requires update of CSP');
           }
         }
       }
@@ -718,7 +770,7 @@ App.main = function (callback, createUi) {
         (typeof gapi === 'undefined' && (((urlParams['embed'] != '1' && urlParams['gapi'] != '0') ||
             (urlParams['embed'] == '1' && urlParams['gapi'] == '1')) && isSvgBrowser &&
           isLocalStorage && (document.documentMode == null || document.documentMode >= 10)))) {
-        mxscript('https://apis.google.com/js/api.js?onload=DrawGapiClientCallback', null, null, null, mxClient.IS_SVG);
+        // mxscript('https://apis.google.com/js/api.js?onload=DrawGapiClientCallback', null, null, null, mxClient.IS_SVG);
       }
       // Disables client
       else if (typeof window.gapi === 'undefined') {
@@ -808,12 +860,12 @@ App.main = function (callback, createUi) {
                   (((urlParams['embed'] != '1' && urlParams['db'] != '0') ||
                       (urlParams['embed'] == '1' && urlParams['db'] == '1')) &&
                     isSvgBrowser && (document.documentMode == null || document.documentMode > 9)))) {
-                mxscript(App.DROPBOX_URL, function () {
-                  // Must load this after the dropbox SDK since they use the same namespace
-                  mxscript(App.DROPINS_URL, function () {
-                    DrawDropboxClientCallback();
-                  }, 'dropboxjs', App.DROPBOX_APPKEY);
-                });
+                // mxscript(App.DROPBOX_URL, function () {
+                //   // Must load this after the dropbox SDK since they use the same namespace
+                //   mxscript(App.DROPINS_URL, function () {
+                //     DrawDropboxClientCallback();
+                //   }, 'dropboxjs', App.DROPBOX_APPKEY);
+                // });
               }
               // Disables client
               else if (typeof window.Dropbox === 'undefined' || typeof window.Dropbox.choose === 'undefined') {
@@ -1546,27 +1598,26 @@ App.prototype.init = function () {
     this.initializeViewerMode();
   }
   // 加载数据
-  if (urlParams['_fileId']) {
-    debugger
-    const xmlString = localStorage.getItem('data')
-    // localStorage.clear()
-    // window.indexedDB.deleteDatabase('database')
-
-    this.editor.graph.getModel().clear();
-    setTimeout(() => {
-      this.defaultFilename = '测试'
-      var doc = mxUtils.parseXml(xmlString || '');
-      this.editor.setGraphXml(doc.documentElement)
-      this.editor.setModified(false)
-      // // 刷新图例显示
-      this.editor.graph.refresh();
-      // console.log(this.getCurrentFile())
-      const file = this.getCurrentFile()
-      file.rename('测试')
-    }, 1000)
-  } else {
-    window.close()
-  }
+  // if (urlParams['_fileId']) {
+  //   const xmlString = localStorage.getItem('data')
+  //   localStorage.clear()
+  //   window.indexedDB.deleteDatabase('database')
+  //
+  //   this.editor.graph.getModel().clear();
+  //   setTimeout(() => {
+  //     // this.defaultFilename = '测试'
+  //     // var doc = mxUtils.parseXml(xmlString || '');
+  //     // this.editor.setGraphXml(doc.documentElement)
+  //     // this.editor.setModified(false)
+  //     // // 刷新图例显示
+  //     this.editor.graph.refresh();
+  //     // console.log(this.getCurrentFile())
+  //     const file = this.getCurrentFile()
+  //     file.rename('测试')
+  //   }, 1000)
+  // } else {
+  //   window.close()
+  // }
 };
 
 /**
@@ -1967,6 +2018,7 @@ App.prototype.resetRecent = function (entry) {
  * Sets the onbeforeunload for the application
  */
 App.prototype.onBeforeUnload = function () {
+  return true
   if (urlParams['embed'] == '1' && this.editor.modified) {
     return mxResources.get('allChangesLost');
   } else {
@@ -4749,7 +4801,7 @@ App.prototype.updateButtonContainer = function () {
             icon.style.filter = 'invert(100%)';
           }
 
-          mxUtils.write(this.shareButton, mxResources.get('saveApi'));
+          // mxUtils.write(this.shareButton, mxResources.get('saveApi'));
 
           mxEvent.addListener(this.shareButton, 'click', mxUtils.bind(this, function () {
             this.actions.get('saveApi').funct();
@@ -4757,7 +4809,7 @@ App.prototype.updateButtonContainer = function () {
 
           }));
 
-          this.buttonContainer.appendChild(this.shareButton);
+          // this.buttonContainer.appendChild(this.shareButton);
         }
 
         if (this.shareButton != null) {

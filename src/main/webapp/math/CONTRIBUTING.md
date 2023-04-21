@@ -18,7 +18,6 @@ There are lots and lots of ways to get involved, this document covers:
     * [translation](#translation)
 * [Conduct](#conduct)
 
-
 ## Reporting An Issue
 
 If you're about to raise an issue because you think you've found a
@@ -89,7 +88,8 @@ more information from you. Be sure to include the details of your environment.
 
 <a id="template"></a>
 
-Template Example ([click to use](https://github.com/MathJax/MathJax/issues/new?title=Bug%3A&body=%23%23%23%20Issue%20Summary%0A%0A%23%23%23%20Steps%20to%20Reproduce%0A%0A1.%20This%20is%20the%20first%20step%0A%0AThis%20is%20a%20bug%20because...%0A%0A%23%23%23%20Technical%20details%0A%0A*%20MathJax%20Version%3A%20master%20-%20latest%20commit%3A%20%20INSERT%20COMMIT%20REF%0A*%20Client%20OS%3A%20%0A*%20Browser%3A%20%0A*%20)):
+Template
+Example ([click to use](https://github.com/MathJax/MathJax/issues/new?title=Bug%3A&body=%23%23%23%20Issue%20Summary%0A%0A%23%23%23%20Steps%20to%20Reproduce%0A%0A1.%20This%20is%20the%20first%20step%0A%0AThis%20is%20a%20bug%20because...%0A%0A%23%23%23%20Technical%20details%0A%0A*%20MathJax%20Version%3A%20master%20-%20latest%20commit%3A%20%20INSERT%20COMMIT%20REF%0A*%20Client%20OS%3A%20%0A*%20Browser%3A%20%0A*%20)):
 
 ```
 Short and descriptive example bug report title
@@ -116,7 +116,6 @@ do you expect to happen instead?
 * Browser: Chrome 29.0.1547.57
 ```
 
-
 ### Feature Requests
 
 Feature requests are welcome. Before you submit one, be sure to have:
@@ -141,13 +140,13 @@ a refactor, or an improvement to a feature, etc., please be sure to:
 2. Take a moment to think about the best way to make a case for, and
    explain what you're thinking. Are you sure this shouldn't really be
    a [bug report](#bug-reports) or a [feature
-   request](#feature-requests)?  Is it really one idea or is it many?
+   request](#feature-requests)? Is it really one idea or is it many?
    What's the context? What problem are you solving? Why is what you
    are suggesting better than what's already there?
 
 ## Working on MathJax core
 
-You want to contribute code? We describe how below.  First, note that
+You want to contribute code? We describe how below. First, note that
 the MathJax source code is in the
 <https://github.com/mathjax/MathJax-src> repository, not the
 <https://github.com/mathjax/MathJax> repository, which contains the
@@ -167,38 +166,37 @@ MathJax uses several permanent branches in the [MathJax source repository](https
   site.
 
 - **[master](https://github.com/mathjax/MathJax-src)** contains the latest
-  release of MathJax. This branch may be used in production. Do 
+  release of MathJax. This branch may be used in production. Do
   **NOT** use this branch to work on MathJax's source.
 
 These branches reflect version 3 of MathJax, which is substantially
-different from the version 2 codebase.  Version 2 will continue to be
+different from the version 2 codebase. Version 2 will continue to be
 maintained while web sites transition to version 3, with work being
 done using the following branches in the [MathJax distribution
 repository](https://github.com/mathjax/MathJax):
 
 - **[legacy-v2-develop](https://github.com/mathjax/MathJax/tree/legacy-v2-develop)**
   is the development branch for changes to the legacy version 2 code.
-  Any pull requests for version 2 should be branched from here.  Do
+  Any pull requests for version 2 should be branched from here. Do
   **NOT** use this branch for a production site.
 
 - **[legacy-v2](https://github.com/mathjax/MathJax/tree/legacy-v2)**
   is the branch that contains any updates to version 2 following
-  the release of version 3.  Do **NOT** use this branch to work on
+  the release of version 3. Do **NOT** use this branch to work on
   MathJax's source.
 
 In addition to these branches, MathJax uses tags to identify the
-various versions.  These can be checked out to obtain the specified
+various versions. These can be checked out to obtain the specified
 release; for example, `git checkout 2.7.5` would get you the files for
 version 2.7.5 of MathJax.
 
 Note that version 3 is written in Typescript, and so must be compiled
 to obtain usable javascript files, and that the components need to be
-built once that is done.  See the
+built once that is done. See the
 [documentation](https://docs.mathjax.org/en/latest/web/hosting.html#getting-mathjax-via-git)
 for details. For version 2, the source javascript files are not
 compressed until a release is made, so you should use the copies in
 the `unpacked` directory during development.
-  
 
 ### Submitting Pull Requests
 
@@ -232,7 +230,6 @@ instructions](https://gist.github.com/piscisaureus/3342247) on
 configuring your GitHub repository to allow you to checkout pull
 requests in the same way as branches.
 
-
 ### Writing documentation
 
 MathJax's main documentation can be found at [docs.mathjax.org](http://docs.mathjax.org).
@@ -241,10 +238,9 @@ The source of the docs is hosted in the
 
 The documentation is generated using
 [Sphinx-doc](http://sphinx-doc.org/) and hosted on [Read the
-docs](http://readthedocs.org).  You can clone the repo and submit pull
+docs](http://readthedocs.org). You can clone the repo and submit pull
 requests following the [pull-request](#submitting-pull-requests)
 guidelines.
-
 
 ### Translation
 
@@ -281,7 +277,7 @@ Please keep unstructured critique to a minimum. If you have solid
 ideas you want to experiment with, make a fork and see how it works.
 
 We will exclude you from interaction if you insult, demean or harass
-anyone.  That is not welcome behaviour. We interpret the term
+anyone. That is not welcome behaviour. We interpret the term
 "harassment" as including the definition in the [Unacceptable
 Behavior](https://numfocus.org/code-of-conduct#unacceptable-behavior)
 section of the [NumFOCUS code of
@@ -308,7 +304,7 @@ for further suggestions on appropriate behavior.
 ## References
 
 * We heavily borrowed from Mozilla and Ghost -- thank you!
-  * <https://github.com/TryGhost/Ghost/blob/master/CONTRIBUTING.md>
-  * <https://github.com/mozilla/rust/wiki/Note-development-policy>
+    * <https://github.com/TryGhost/Ghost/blob/master/CONTRIBUTING.md>
+    * <https://github.com/mozilla/rust/wiki/Note-development-policy>
 * <https://github.com/jden/CONTRIBUTING.md/blob/master/CONTRIBUTING.md>
 * <http://blog.discourse.org/2013/03/the-universal-rules-of-civilized-discourse/>

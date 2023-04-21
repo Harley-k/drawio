@@ -48,7 +48,8 @@ and loading MathJax via
 
 ### Supporting information:
 
- * Please supply a link to a (live) minimal example page, when possible.
- * If your issue is with the display of the mathematics produced by MathJax, include a screen snapshot that illustrates the problem, when possible.
- * Check your browser console window for any error messages, and include them here.
- * Include the MathJax configuration you are using, and the script tag that loads MathJax itself.
+* Please supply a link to a (live) minimal example page, when possible.
+* If your issue is with the display of the mathematics produced by MathJax, include a screen snapshot that illustrates
+  the problem, when possible.
+* Check your browser console window for any error messages, and include them here.
+* Include the MathJax configuration you are using, and the script tag that loads MathJax itself.

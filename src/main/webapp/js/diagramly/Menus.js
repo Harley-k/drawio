@@ -2414,49 +2414,49 @@ this.put('language', new Menu(mxUtils.bind(this, function(menu, parent)
         }, parent);
       }
     }))).isEnabled = isGraphEnabled;
-/*
+    /*
 
-    this.put('appearance', new Menu(mxUtils.bind(this, function (menu, parent) {
-      var iw = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        this.put('appearance', new Menu(mxUtils.bind(this, function (menu, parent) {
+          var iw = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 
-      if (Editor.currentTheme == 'simple') {
-        // Elements are hidden with the following widths:
-        // ViewZoom: <750
-        // Insert edge: <680
-        // Insert text: <660
-        // Comments: <560
-        // Insert Table: <500
-        // Pages: <480
-        // Insert Shapes: <440
-        // Insert Freehand: <390
-        // Share: <360
-        // Insert: <320
+          if (Editor.currentTheme == 'simple') {
+            // Elements are hidden with the following widths:
+            // ViewZoom: <750
+            // Insert edge: <680
+            // Insert text: <660
+            // Comments: <560
+            // Insert Table: <500
+            // Pages: <480
+            // Insert Shapes: <440
+            // Insert Freehand: <390
+            // Share: <360
+            // Insert: <320
 
-        if (iw < 750) {
-          this.addSubmenu('viewZoom', menu, parent, mxResources.get('zoom'));
-        }
+            if (iw < 750) {
+              this.addSubmenu('viewZoom', menu, parent, mxResources.get('zoom'));
+            }
 
-        if (iw < 460 && editorUi.isPageMenuVisible()) {
-          this.addSubmenu('pages', menu, parent);
-        }
+            if (iw < 460 && editorUi.isPageMenuVisible()) {
+              this.addSubmenu('pages', menu, parent);
+            }
 
-        if (iw < 320) {
-          this.addSubmenu('insert', menu, parent);
-        }
+            if (iw < 320) {
+              this.addSubmenu('insert', menu, parent);
+            }
 
-        if (iw < 360 && urlParams['embed'] != '1' &&
-          editorUi.getServiceName() == 'draw.io') {
-          this.addSubmenu('share', menu, parent);
-        }
-      }
+            if (iw < 360 && urlParams['embed'] != '1' &&
+              editorUi.getServiceName() == 'draw.io') {
+              this.addSubmenu('share', menu, parent);
+            }
+          }
 
-      this.addMenuItems(menu, ['-', 'lightMode', 'darkMode', 'autoMode'], parent);
+          this.addMenuItems(menu, ['-', 'lightMode', 'darkMode', 'autoMode'], parent);
 
-      if (urlParams['embed'] != '1') {
-        this.addMenuItems(menu, ['-', 'toggleSimpleMode'], parent);
-      }
-    })));
-*/
+          if (urlParams['embed'] != '1') {
+            this.addMenuItems(menu, ['-', 'toggleSimpleMode'], parent);
+          }
+        })));
+    */
 
     editorUi.actions.addAction('addToScratchpad', function (evt) {
       if (!graph.isSelectionEmpty() && editorUi.addSelectionToScratchpad != null) {
@@ -2469,59 +2469,59 @@ this.put('language', new Menu(mxUtils.bind(this, function(menu, parent)
       editorUi.userPanel.style.right = '10px';
       editorUi.userPanel.style.top = '10px';
     });
-/* 删除主题
-    this.put('theme', new Menu(mxUtils.bind(this, function (menu, parent) {
-      var theme = (urlParams['sketch'] == '1') ? 'sketch' : mxSettings.getUi();
+    /* 删除主题
+        this.put('theme', new Menu(mxUtils.bind(this, function (menu, parent) {
+          var theme = (urlParams['sketch'] == '1') ? 'sketch' : mxSettings.getUi();
 
-      var item = menu.addItem(mxResources.get('automatic'), null, function () {
-        editorUi.setCurrentTheme('');
-      }, parent);
-      if (theme != 'kennedy' && theme != 'atlas' &&
-        theme != 'dark' && theme != 'simple' &&
-        theme != 'sketch' && theme != 'min') {
-        menu.addCheckmark(item, Editor.checkmarkImage);
-      }
+          var item = menu.addItem(mxResources.get('automatic'), null, function () {
+            editorUi.setCurrentTheme('');
+          }, parent);
+          if (theme != 'kennedy' && theme != 'atlas' &&
+            theme != 'dark' && theme != 'simple' &&
+            theme != 'sketch' && theme != 'min') {
+            menu.addCheckmark(item, Editor.checkmarkImage);
+          }
 
-      item = menu.addItem(mxResources.get('classic'), null, function () {
-        editorUi.setCurrentTheme((!Editor.isDarkMode()) ? 'kennedy' : 'dark');
-      }, parent);
+          item = menu.addItem(mxResources.get('classic'), null, function () {
+            editorUi.setCurrentTheme((!Editor.isDarkMode()) ? 'kennedy' : 'dark');
+          }, parent);
 
-      if (theme == 'kennedy' || theme == 'dark') {
-        menu.addCheckmark(item, Editor.checkmarkImage);
-      }
+          if (theme == 'kennedy' || theme == 'dark') {
+            menu.addCheckmark(item, Editor.checkmarkImage);
+          }
 
-      item = menu.addItem(mxResources.get('simple'), null, function () {
-        editorUi.setCurrentTheme('simple');
-      }, parent);
+          item = menu.addItem(mxResources.get('simple'), null, function () {
+            editorUi.setCurrentTheme('simple');
+          }, parent);
 
-      if (theme == 'simple') {
-        menu.addCheckmark(item, Editor.checkmarkImage);
-      }
+          if (theme == 'simple') {
+            menu.addCheckmark(item, Editor.checkmarkImage);
+          }
 
-      item = menu.addItem(mxResources.get('sketch'), null, function () {
-        editorUi.setCurrentTheme('sketch');
-      }, parent);
+          item = menu.addItem(mxResources.get('sketch'), null, function () {
+            editorUi.setCurrentTheme('sketch');
+          }, parent);
 
-      if (theme == 'sketch') {
-        menu.addCheckmark(item, Editor.checkmarkImage);
-      }
+          if (theme == 'sketch') {
+            menu.addCheckmark(item, Editor.checkmarkImage);
+          }
 
-      item = menu.addItem(mxResources.get('minimal'), null, function () {
-        editorUi.setCurrentTheme('min');
-      }, parent);
+          item = menu.addItem(mxResources.get('minimal'), null, function () {
+            editorUi.setCurrentTheme('min');
+          }, parent);
 
-      if (theme == 'min') {
-        menu.addCheckmark(item, Editor.checkmarkImage);
-      }
+          if (theme == 'min') {
+            menu.addCheckmark(item, Editor.checkmarkImage);
+          }
 
-      item = menu.addItem(mxResources.get('atlas'), null, function () {
-        editorUi.setCurrentTheme('atlas');
-      }, parent);
+          item = menu.addItem(mxResources.get('atlas'), null, function () {
+            editorUi.setCurrentTheme('atlas');
+          }, parent);
 
-      if (theme == 'atlas') {
-        menu.addCheckmark(item, Editor.checkmarkImage);
-      }
-    })));*/
+          if (theme == 'atlas') {
+            menu.addCheckmark(item, Editor.checkmarkImage);
+          }
+        })));*/
 
     var renameAction = this.editorUi.actions.addAction('rename...', mxUtils.bind(this, function () {
       var file = this.editorUi.getCurrentFile();
@@ -2870,7 +2870,9 @@ this.put('language', new Menu(mxUtils.bind(this, function(menu, parent)
         menu.addSeparator(parent);
 
         if (editorUi.insertTemplateEnabled && !editorUi.isOffline()) {
-          editorUi.menus.addMenuItems(menu, ['insertTemplate'], parent);
+          // 删除模板
+
+          // editorUi.menus.addMenuItems(menu, ['insertTemplate'], parent);
         }
 
         editorUi.menus.addMenuItems(menu, ['insertImage', 'insertLink', '-'], parent);
@@ -2882,7 +2884,8 @@ this.put('language', new Menu(mxUtils.bind(this, function(menu, parent)
           '-', 'createShape', 'insertFreehand', '-', 'insertImage'], parent);
 
         if (editorUi.insertTemplateEnabled && !editorUi.isOffline()) {
-          this.addMenuItems(menu, ['insertTemplate'], parent);
+          // 删除模板
+          // this.addMenuItems(menu, ['insertTemplate'], parent);
         }
 
         menu.addSeparator(parent);

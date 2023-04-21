@@ -85,23 +85,15 @@ Actions.prototype.init = function () {
     });
   }).isEnabled = isGraphEnabled;
   this.addAction('saveApi', function () {
-    // 保存数据
-    // ui.saveFile(false);
-    var graph = ui.editor.graph;
+    const fileName = ui.getCurrentFile().title
+    const graph = ui.editor.graph;
     const canvas = graph.view.canvas
     const svg = graph.view.getCanvas()
-    var encoder = new mxCodec();
-    var xmlData = encoder.encode(graph.getModel());
-
+    const encoder = new mxCodec();
+    const xmlData = encoder.encode(graph.getModel());
     const dom = document.createElement('div')
     dom.appendChild(xmlData)
-    // graph 获取 png 数据
-
-    // var tmp = new LocalFile(ui, null, name);
-    // tmp.saveImage();
-// Svg 数据
     const svgData = graph.getSvg()
-
     const svgString = new XMLSerializer().serializeToString(svgData);
     const _canvas = document.createElement('canvas');
     _canvas.width = svgData.width.baseVal.value;
@@ -109,19 +101,17 @@ Actions.prototype.init = function () {
     const ctx = _canvas.getContext('2d');
     const img = document.createElement('img');
     img.src = `data:image/svg+xml;utf8,${encodeURIComponent(svgString)}`;
-
     img.onload = () => {
       ctx.drawImage(img, 0, 0);
-      const pngDataUrl = _canvas.toDataURL('image/png');
+      const pngDataBase64 = _canvas.toDataURL('image/png');
       // xml数据
       localStorage.setItem('data', dom.innerHTML)
       // 使用pngDataUrl进行后续操作，例如保存或显示PNG图像
       // svg 转换 base64 png
       // LocalFile.rename('测试')
-      console.log(pngDataUrl,svgData,urlParams,this)
-      debugger
+      console.log(fileName, dom.innerHTML)
 
-      window.close()
+      // window.close()
 
     };
   });

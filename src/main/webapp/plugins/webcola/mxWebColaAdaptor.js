@@ -19,11 +19,10 @@
  * options - <{}> WebCola options for layout/adapter
  *
  **/
-var doNothing = function()
+var doNothing = function ()
   /**
    * Empty method for default event handlers
-   */
-{
+   */ {
 }
 
 function mxWebColaAdaptor(graph, dimension, movableVertices, options)
@@ -34,12 +33,10 @@ function mxWebColaAdaptor(graph, dimension, movableVertices, options)
  * @param movableVertices set containing IDs of vertices that are movable; if undefined all vertices are movable
  * @param options WebCola options for layout/adapter
  * @constructor
- */
-{
+ */ {
   this.graph = graph;
   this.dimension = dimension;
-  if (typeof dimension === 'undefined')
-  {
+  if (typeof dimension === 'undefined') {
     this.dimension = [600, 600];
   }
   // compute vertex/group degrees from incidence
@@ -55,15 +52,12 @@ function mxWebColaAdaptor(graph, dimension, movableVertices, options)
   this.isStopped = false;
   this.options = {};
   // assign default values
-  for (var key in this.defaultValues)
-  {
+  for (var key in this.defaultValues) {
     this.options[key] = this.defaultValues[key];
   }
   // if options were passed, override defaults for keys available in options
-  if (options != null)
-  {
-    for (var key in options)
-    {
+  if (options != null) {
+    for (var key in options) {
       this.options[key] = options[key];
     }
   }
@@ -82,8 +76,10 @@ mxWebColaAdaptor.prototype.defaultValues = {
   nodeDimensionsIncludeLabels: false, // whether labels should be included in determining the space used by a node
 
   // layout event callbacks
-  ready: function ready() {}, // on layoutready
-  stop: function stop() {}, // on layoutstop
+  ready: function ready() {
+  }, // on layoutready
+  stop: function stop() {
+  }, // on layoutstop
 
   // positioning options
   randomize: false, // use random node positions at beginning of layout
@@ -111,52 +107,43 @@ mxWebColaAdaptor.prototype.defaultValues = {
   keepRunning: false // overrides all other options for a forces-all-the-time mode
 };
 
-mxWebColaAdaptor.prototype.updatePositions = function(isUndoable)
+mxWebColaAdaptor.prototype.updatePositions = function (isUndoable)
   /**
    * Default method for updating positions
    * Should be overridden by the caller/user of the adaptor
-   */
-{
+   */ {
   console.log("colaAdaptor: updatePositions");
   // TODO: do all the positions here
 }
 
 mxWebColaAdaptor.prototype.kick = function (colaAdaptor)
-/**
- * Starts WebCola computation on the given adaptor
- */
-{
+  /**
+   * Starts WebCola computation on the given adaptor
+   */ {
   console.log("colaAdaptor: step");
 
-  if ('doAnimations' in this.options && this.options.doAnimations)
-  {
+  if ('doAnimations' in this.options && this.options.doAnimations) {
     doRendering(this.callback);
-  }
-  else
-  {
+  } else {
     // run until the end
-    while (!this.process(colaAdaptor))
-    {
+    while (!this.process(colaAdaptor)) {
     }
   }
 }
 
 mxWebColaAdaptor.prototype.step = function (colaAdaptor)
-/**
- * Notifies about a single layout computation step on WebCola adaptor
- */
-{
-  if ('doAnimations' in this.options && this.options.doAnimations)
-  {
+  /**
+   * Notifies about a single layout computation step on WebCola adaptor
+   */ {
+  if ('doAnimations' in this.options && this.options.doAnimations) {
     this.updatePositions(false);
   }
 }
 
-mxWebColaAdaptor.prototype.frameSteps = function(colaAdaptor)
-/**
- * Runs multiple ticks on WebCola adaptor until finished
- */
-{
+mxWebColaAdaptor.prototype.frameSteps = function (colaAdaptor)
+  /**
+   * Runs multiple ticks on WebCola adaptor until finished
+   */ {
   var result = void 0;
 
   for (var i = 0; i < this.options.skipFrames && !result; i++) {
@@ -165,13 +152,11 @@ mxWebColaAdaptor.prototype.frameSteps = function(colaAdaptor)
   return result;
 }
 
-mxWebColaAdaptor.prototype.process = function(colaAdaptor)
-/**
- * Executes the whole layout computation on WebCola adaptor
- */
-{
-  if (this.isStopped)
-  {
+mxWebColaAdaptor.prototype.process = function (colaAdaptor)
+  /**
+   * Executes the whole layout computation on WebCola adaptor
+   */ {
+  if (this.isStopped) {
     this.finish();
     return true;
   }
@@ -182,72 +167,60 @@ mxWebColaAdaptor.prototype.process = function(colaAdaptor)
   return result;
 }
 
-mxWebColaAdaptor.prototype.renderingChain = function(colaAdaptor)
-/**
- * This keeps rendering new simulation frames until end is reached
- */
-{
-  if (this.process(colaAdaptor))
-  {
+mxWebColaAdaptor.prototype.renderingChain = function (colaAdaptor)
+  /**
+   * This keeps rendering new simulation frames until end is reached
+   */ {
+  if (this.process(colaAdaptor)) {
     return;
   }
   doRendering(this.callback);
 }
 
-mxWebColaAdaptor.prototype.finish = function()
-{
+mxWebColaAdaptor.prototype.finish = function () {
 
 }
 
-mxWebColaAdaptor.prototype.run = function()
+mxWebColaAdaptor.prototype.run = function ()
   /**
    * Runs the layout computation on given nodes/links/groups
    * @returns Nothing
-   */
-{
+   */ {
   var layout = this;
   var options = this.options;
 
   var colaAdaptor = layout.adaptor = cola.adaptor
   ({
-    trigger: function (evt)
-    {
+    trigger: function (evt) {
       var START = cola.EventType ? cola.EventType.start : 'start';
       var TICK = cola.EventType ? cola.EventType.tick : 'tick';
       var END = cola.EventType ? cola.EventType.end : 'end';
 
-      switch (evt.type)
-      {
-        case START:
-        {
+      switch (evt.type) {
+        case START: {
           // colaAdaptor.start();
         }
-        break;
-        case TICK:
-        {
+          break;
+        case TICK: {
           layout.step();
         }
-        break;
-        case END:
-        {
+          break;
+        case END: {
           console.log("colaAdaptor: end");
           layout.updatePositions(true);
-          if (!options.keepRunning)
-          {
+          if (!options.keepRunning) {
             layout.finish();
           }
         }
-        break;
+          break;
       }
     },
 
-    kick: function ()
-    {
+    kick: function () {
       layout.kick(colaAdaptor);
     },
 
-    finish: function()
-    {
+    finish: function () {
       layout.finish();
     },
 
@@ -257,24 +230,22 @@ mxWebColaAdaptor.prototype.run = function()
   });
 
   colaAdaptor.nodes(this.nodes)
-             .links(this.links)
-             .groups(this.groups)
-             .size(this.dimension)
-             .linkDistance(function (link)
-              {
-                return link.length;
-              });
+    .links(this.links)
+    .groups(this.groups)
+    .size(this.dimension)
+    .linkDistance(function (link) {
+      return link.length;
+    });
 
-  layout.callback = function()
-  {
+  layout.callback = function () {
     layout.renderingChain(colaAdaptor);
   }
 
   colaAdaptor.avoidOverlaps(options.avoidOverlap)
-             .handleDisconnected(options.handleDisconnected)
-             // .constraints(constraints)
-             // .start(100, 100, 100);
-             .start();
+    .handleDisconnected(options.handleDisconnected)
+    // .constraints(constraints)
+    // .start(100, 100, 100);
+    .start();
   return this.adaptor;
 }
 
@@ -285,8 +256,7 @@ function getScreenConstraints(layout, width, height)
  * @param width
  * @param height
  * @returns {Array}
- */
-{
+ */ {
   var gap = 20;
   var size = layout._nodes.length;
   var topLeft = {x: 0, y: 0, fixed: true, index: size};
@@ -296,27 +266,26 @@ function getScreenConstraints(layout, width, height)
   var constraints = [];
   for (var i = 0; i < size; i++) {
     var index = layout._nodes[i].index;
-    constraints.push({ axis: 'x', type: 'separation', left: topLeft.index, right: index, gap: gap });
-    constraints.push({ axis: 'y', type: 'separation', left: topLeft.index, right: index, gap: gap });
-    constraints.push({ axis: 'x', type: 'separation', left: index, right: bottomRight.index, gap: gap });
-    constraints.push({ axis: 'y', type: 'separation', left: index, right: bottomRight.index, gap: gap });
+    constraints.push({axis: 'x', type: 'separation', left: topLeft.index, right: index, gap: gap});
+    constraints.push({axis: 'y', type: 'separation', left: topLeft.index, right: index, gap: gap});
+    constraints.push({axis: 'x', type: 'separation', left: index, right: bottomRight.index, gap: gap});
+    constraints.push({axis: 'y', type: 'separation', left: index, right: bottomRight.index, gap: gap});
   }
   return constraints;
 }
 
-mxWebColaAdaptor.prototype.graphToLayout = function(graph, movableVertices)
-/**
- * Returns a WebCola layout set up for the given Draw.io graph
- * In WebCola's TypeScript source: vertex cell -> InputNode
- *                                 edge cell -> Link
- *                                 parent/child -> Group
- * @param graph Draw.io graph object
- * @param fixedVertices Vertices that shouldn't be moved (dictionary with {id: True} pairs, id is vertex id)
- *                      optional, if undefined all vertices are considered movable
- * @returns list of WebCola nodes, list of WebCola links, and a dictionary from Draw.io cell ID to WebCola node ID
- *          returned as a dictionary: {nodes: ..., links: ..., cellToNode: ...}
- */
-{
+mxWebColaAdaptor.prototype.graphToLayout = function (graph, movableVertices)
+  /**
+   * Returns a WebCola layout set up for the given Draw.io graph
+   * In WebCola's TypeScript source: vertex cell -> InputNode
+   *                                 edge cell -> Link
+   *                                 parent/child -> Group
+   * @param graph Draw.io graph object
+   * @param fixedVertices Vertices that shouldn't be moved (dictionary with {id: True} pairs, id is vertex id)
+   *                      optional, if undefined all vertices are considered movable
+   * @returns list of WebCola nodes, list of WebCola links, and a dictionary from Draw.io cell ID to WebCola node ID
+   *          returned as a dictionary: {nodes: ..., links: ..., cellToNode: ...}
+   */ {
   var activeMaps = this.findActiveVertices(graph);  // list of all active vertices, i.e. with no collapsed parents
   var activeVertices = activeMaps.activeVertices;  // inactive vertex to its nearest active parent map
   var inactiveToActiveMap = activeMaps.inactiveToActiveMap;
@@ -324,20 +293,18 @@ mxWebColaAdaptor.prototype.graphToLayout = function(graph, movableVertices)
   var cells = model.cells;
   var view = graph.getView();
   var cellSpacing = 20;
-  
+
   // Ignores cells that have no states
   var tmp = {};
-  
-  for (var id in cells)
-  {
-	  if (view.getState(cells[id]) != null)
-	  {
-		  tmp[id] = cells[id];
-	  }
+
+  for (var id in cells) {
+    if (view.getState(cells[id]) != null) {
+      tmp[id] = cells[id];
+    }
   }
-  
+
   cells = tmp;
-  
+
   var nodeCells = {};
   var linkCells = {};
   var cellIds = {};
@@ -346,8 +313,7 @@ mxWebColaAdaptor.prototype.graphToLayout = function(graph, movableVertices)
   var nodes = [];
   var links = [];
   // process nodes first
-  for (var id in cells)
-  {
+  for (var id in cells) {
     var cell = cells[id];
     var state = view.getState(cell);
     var bounds = view.getBoundingBox(state, true);
@@ -356,8 +322,7 @@ mxWebColaAdaptor.prototype.graphToLayout = function(graph, movableVertices)
     // if (cell.isVertex() && this.isLeafOrCollapsed(cell)) {
     // only active vertices should be considered (i.e. not hidden by a collapsed or layouted vertex)
     // if (cell.isVertex() && activeVertices[cell.id])
-    if (cell.isVertex() && this.isLeafOrCollapsed(cell) && activeVertices[cell.id])
-    {
+    if (cell.isVertex() && this.isLeafOrCollapsed(cell) && activeVertices[cell.id]) {
       var node = {};
       // node.x = bounds.getCenterX();
       // node.y = bounds.getCenterY();
@@ -366,8 +331,7 @@ mxWebColaAdaptor.prototype.graphToLayout = function(graph, movableVertices)
       node.index = colaId;
       node.name = cell.value;
       node.fixed = false;
-      if (typeof movableVertices !== 'undefined' && !(id in movableVertices))
-      {
+      if (typeof movableVertices !== 'undefined' && !(id in movableVertices)) {
         node.fixed = true;
       }
       nodes.push(node);
@@ -377,17 +341,14 @@ mxWebColaAdaptor.prototype.graphToLayout = function(graph, movableVertices)
     }
   }
   // now edges can be processed as well
-  for (var id in cells)
-  {
+  for (var id in cells) {
     var cell = cells[id];
     var state = view.getState(cell);
-    if (cell.isEdge() && cell.getTerminal(true) != null && cell.getTerminal(false) != null)
-    {
+    if (cell.isEdge() && cell.getTerminal(true) != null && cell.getTerminal(false) != null) {
       // attach edges to lowest active vertex corresponding to each of their terminals
       var terminal_id1 = inactiveToActiveMap[cell.source.id];
       var terminal_id2 = inactiveToActiveMap[cell.target.id];
-      if (terminal_id1 == terminal_id2)
-      {
+      if (terminal_id1 == terminal_id2) {
         // both terminals are under the same active parent, no need to make an invisible edge
         continue;
       }
@@ -395,20 +356,16 @@ mxWebColaAdaptor.prototype.graphToLayout = function(graph, movableVertices)
       var terminal1 = cells[terminal_id1];
       var terminal2 = cells[terminal_id2];
       var addedLinks = [];
-      if (this.isGroup(terminal1) || this.isGroup(terminal2))
-      {
+      if (this.isGroup(terminal1) || this.isGroup(terminal2)) {
         addedLinks = this.addGroupConstraintLinks(terminal1, terminal2, activeVertices, inactiveToActiveMap, cellIds);
-      }
-      else
-      {
+      } else {
         // link = {}
         // link.source = cellIds[cell.source.id];
         // link.target = cellIds[cell.target.id];
         var link = this.createLink(terminal_id1, terminal_id2, cellIds);
         addedLinks.push(link);
       }
-      for (var i = 0; i < addedLinks.length; i++)
-      {
+      for (var i = 0; i < addedLinks.length; i++) {
         var link = addedLinks[i];
         links.push(link);
         edgeIds[cell] = id;
@@ -424,17 +381,14 @@ mxWebColaAdaptor.prototype.graphToLayout = function(graph, movableVertices)
   // first, get all possible parents and their children
   var groupParents = {};
   var directParentChildren = {};
-  for (var id in cells)
-  {
+  for (var id in cells) {
     var cell = cells[id];
     if (!cell.isVertex() || !this.isLeafOrCollapsed(cell))
       continue;
     var parent = cell.getParent();
-    if (parent.isVertex())
-    {
+    if (parent.isVertex()) {
       groupParents[parent.id] = parent;
-      if (!(parent.id in directParentChildren))
-      {
+      if (!(parent.id in directParentChildren)) {
         directParentChildren[parent.id] = {}
       }
       directParentChildren[parent.id][id] = cell;
@@ -444,14 +398,11 @@ mxWebColaAdaptor.prototype.graphToLayout = function(graph, movableVertices)
   var preliminaryGroups = [];
   var groupId = 0;
   var groupToParent = {}
-  for (var parentId in groupParents)
-  {
+  for (var parentId in groupParents) {
     var parentChildren = directParentChildren[parentId];
     var groupNodes = []
-    for (var childId in parentChildren)
-    {
-      if (activeVertices[childId])
-      {
+    for (var childId in parentChildren) {
+      if (activeVertices[childId]) {
         groupNodes.push(cellIds[childId]);
       }
     }
@@ -460,12 +411,10 @@ mxWebColaAdaptor.prototype.graphToLayout = function(graph, movableVertices)
     groupId++;
   }
   // here scan newly formed groups if their parent is a child of any of the nodes in any of the groups
-  for (var i = 0; i < preliminaryGroups.length; i++)
-  {
+  for (var i = 0; i < preliminaryGroups.length; i++) {
     var parentGroup = preliminaryGroups[i];
     var parentId = parentGroup.parentId;
-    for (var j = 0; j < preliminaryGroups.length; j++)
-    {
+    for (var j = 0; j < preliminaryGroups.length; j++) {
       if (i == j)
         continue;
       var groupParentId = cells[preliminaryGroups[j].parentId].getParent().id;
@@ -475,20 +424,16 @@ mxWebColaAdaptor.prototype.graphToLayout = function(graph, movableVertices)
   }
   // finalize groups
   var groups = [];
-  for (var i = 0; i < preliminaryGroups.length; i++)
-  {
+  for (var i = 0; i < preliminaryGroups.length; i++) {
     var group = preliminaryGroups[i];
     var graphGroup = {};
-    if (group.leaves.length > 0)
-    {
+    if (group.leaves.length > 0) {
       graphGroup["leaves"] = group.leaves;
     }
-    if (group.groups.length > 0)
-    {
+    if (group.groups.length > 0) {
       graphGroup["groups"] = group.groups;
     }
-    if (graphGroup.hasOwnProperty("leaves") || graphGroup.hasOwnProperty("groups"))
-    {
+    if (graphGroup.hasOwnProperty("leaves") || graphGroup.hasOwnProperty("groups")) {
       groups.push(graphGroup);
     }
   }
@@ -496,16 +441,15 @@ mxWebColaAdaptor.prototype.graphToLayout = function(graph, movableVertices)
   return {nodes: nodes, links: links, groups: groups, cellToNode: cellIds};
 };
 
-mxWebColaAdaptor.prototype.createLink = function(sourceId, targetId, cellIds)
-/**
- * Creates a default version of a WebCola link/edge
- * @param sourceId ID of the edge's source vertex cell
- * @param targetId ID of the edge's target vertex cell
- * @param cellIds cell ID to WebCola's node ID mapping
- * @returns a WebCola link corresponding to the edge [sourceId, targetId] 
- * in WebCola node IDs
- */
-{
+mxWebColaAdaptor.prototype.createLink = function (sourceId, targetId, cellIds)
+  /**
+   * Creates a default version of a WebCola link/edge
+   * @param sourceId ID of the edge's source vertex cell
+   * @param targetId ID of the edge's target vertex cell
+   * @param cellIds cell ID to WebCola's node ID mapping
+   * @returns a WebCola link corresponding to the edge [sourceId, targetId]
+   * in WebCola node IDs
+   */ {
   var link = {};
   link.source = cellIds[sourceId];
   link.target = cellIds[targetId];
@@ -514,48 +458,42 @@ mxWebColaAdaptor.prototype.createLink = function(sourceId, targetId, cellIds)
   return link;
 }
 
-mxWebColaAdaptor.prototype.computeVertexDegrees = function()
-/**
- * Computes group vertex and vertex degrees. Useful to stop layouting for groups
- * with no internal, incoming or outgoing edges.
- */
-{
+mxWebColaAdaptor.prototype.computeVertexDegrees = function ()
+  /**
+   * Computes group vertex and vertex degrees. Useful to stop layouting for groups
+   * with no internal, incoming or outgoing edges.
+   */ {
   var model = this.graph.getModel();
   var cells = model.cells;
-  
-  // compute individual vertex degrees
-  for (var id in cells)
-  {
-    var cell = cells[id];
-    if (cell.isEdge() && cell.source != null && cell.target != null)
-    {
-    	  // scan all edges, ignore other types
-    	  var sourceId = cell.source.id;
-    	  var targetId = cell.target.id;
-    	  var source = cells[sourceId];
-    	  var target = cells[targetId];
-    	  
-    	  if (sourceId == targetId)
-      {
-    		 // self-loops are irrelevant
-         continue;    		  
-    	  }
-    	  
-    	  var sourceDegree = this.vertexDegrees.get(source);
-    	  if (typeof sourceDegree == "undefined")
-      {
-    		sourceDegree = 0;
-      }
-    	  sourceDegree++;
-    	  this.vertexDegrees.put(source, sourceDegree);
 
-    	  var targetDegree = this.vertexDegrees.get(target);
-    	  if (typeof targetDegree == "undefined")
-      {
-    		  targetDegree = 0;
+  // compute individual vertex degrees
+  for (var id in cells) {
+    var cell = cells[id];
+    if (cell.isEdge() && cell.source != null && cell.target != null) {
+      // scan all edges, ignore other types
+      var sourceId = cell.source.id;
+      var targetId = cell.target.id;
+      var source = cells[sourceId];
+      var target = cells[targetId];
+
+      if (sourceId == targetId) {
+        // self-loops are irrelevant
+        continue;
       }
-    	  targetDegree++;
-    	  this.vertexDegrees.put(target, targetDegree);
+
+      var sourceDegree = this.vertexDegrees.get(source);
+      if (typeof sourceDegree == "undefined") {
+        sourceDegree = 0;
+      }
+      sourceDegree++;
+      this.vertexDegrees.put(source, sourceDegree);
+
+      var targetDegree = this.vertexDegrees.get(target);
+      if (typeof targetDegree == "undefined") {
+        targetDegree = 0;
+      }
+      targetDegree++;
+      this.vertexDegrees.put(target, targetDegree);
     }
   }
   // compute sub-group degree, i.e. sum of all degrees of children
@@ -563,26 +501,21 @@ mxWebColaAdaptor.prototype.computeVertexDegrees = function()
   // path to root and adds its contribution to all vertices on this path
   // this should for each vertex place exactly the sum of degrees of all its vertices
   // and itself, nothing less, nothing more
-  for (var id in cells)
-  {
+  for (var id in cells) {
     var cell = cells[id];
-    if (cell.isVertex())
-    {
-    	  // scan all vertices, ignore other types
-    	  var vertexDegree = this.vertexDegrees.get(cell);
-    	  if (typeof vertexDegree == "undefined")
-    	  {
-    		vertexDegree = 0;
-    	  }
+    if (cell.isVertex()) {
+      // scan all vertices, ignore other types
+      var vertexDegree = this.vertexDegrees.get(cell);
+      if (typeof vertexDegree == "undefined") {
+        vertexDegree = 0;
+      }
       var parent = cell;
-    	  while (parent != null && typeof parent != "undefined")
-	  {
-	    	var groupDegree = this.groupDegrees.get(parent);
-	    	if (typeof groupDegree == "undefined")
-	    	{
-	      groupDegree = 0;
-	    }
-	    groupDegree += vertexDegree;
+      while (parent != null && typeof parent != "undefined") {
+        var groupDegree = this.groupDegrees.get(parent);
+        if (typeof groupDegree == "undefined") {
+          groupDegree = 0;
+        }
+        groupDegree += vertexDegree;
         this.groupDegrees.put(parent, groupDegree);
         parent = parent.parent;
       }
@@ -590,51 +523,42 @@ mxWebColaAdaptor.prototype.computeVertexDegrees = function()
   }
 }
 
-mxWebColaAdaptor.prototype.isZeroConnected = function(groupCell)
-/**
- * Indicates if all group cell's vertices have no incidental edges
- * @params groupCell group cell
- * @returns true if the group cell doesn't contain any vertices with edges
- */
-{
+mxWebColaAdaptor.prototype.isZeroConnected = function (groupCell)
+  /**
+   * Indicates if all group cell's vertices have no incidental edges
+   * @params groupCell group cell
+   * @returns true if the group cell doesn't contain any vertices with edges
+   */ {
   var groupDegree = this.groupDegrees.get(groupCell);
   console.log("Group " + groupCell.id + " degree: " + groupDegree);
-  if (typeof groupDegree != "undefined" && groupDegree > 0)
-  {
-	return false;
+  if (typeof groupDegree != "undefined" && groupDegree > 0) {
+    return false;
   }
   return true;
 }
 
-mxWebColaAdaptor.prototype.isInZeroConnectedGroup = function(cell)
-{
+mxWebColaAdaptor.prototype.isInZeroConnectedGroup = function (cell) {
   var parent = cell.parent;
-  if (parent == null || typeof parent == "undefined")
-  {
-	return this.isZeroConnected(cell);
-  }
-  else
-  {
-	return this.isZeroConnected(parent);
+  if (parent == null || typeof parent == "undefined") {
+    return this.isZeroConnected(cell);
+  } else {
+    return this.isZeroConnected(parent);
   }
 }
 
-mxWebColaAdaptor.prototype.isLeafOrCollapsed = function(cell)
+mxWebColaAdaptor.prototype.isLeafOrCollapsed = function (cell)
   /**
    * Returns true if a cell is either a leaf or a collapsed group
    * @param cell cell to investigate
    * @returns true if a cell is either a leaf or a collapsed group, false otherwise
-   */
-{
+   */ {
   if (cell.isCollapsed() ||
-      cell.children == null || cell.children.length == 0 ||
-      typeof this.graph.getCellStyle(cell)['childLayout'] != 'undefined')
-  {
+    cell.children == null || cell.children.length == 0 ||
+    typeof this.graph.getCellStyle(cell)['childLayout'] != 'undefined') {
     return true;
   }
-  if (this.isZeroConnected(cell))
-  {
-	return true;
+  if (this.isZeroConnected(cell)) {
+    return true;
   }
   /*
   if (!cell.isCollapsed() && cell.children != null && cell.children.length > 0 && this.graph.getEdges(cell, null, true, true, true, true).length == 0)
@@ -646,35 +570,28 @@ mxWebColaAdaptor.prototype.isLeafOrCollapsed = function(cell)
   return false;
 }
 
-mxWebColaAdaptor.prototype.findActiveVertices = function(graph)
+mxWebColaAdaptor.prototype.findActiveVertices = function (graph)
   /**
    * Scans all groups and finds active vertices, as well as an inactive-vertex-to-active-parent map
    * @param graph input graph
-   */
-{
+   */ {
   var inactiveToActiveMap = {};
   var activeVertices = {};
   var root = graph.getModel().root;
   var cellsToExplore = [{vertex: root, isActive: true, activeParent: root}]
-  while (cellsToExplore.length > 0)
-  {
+  while (cellsToExplore.length > 0) {
     var currentCellInfo = cellsToExplore.shift();
     var cell = currentCellInfo.vertex;
-    if (cell.isEdge())
-    {
+    if (cell.isEdge()) {
       // cut at edge group, those are ignored
       continue;
     }
     var isActive = currentCellInfo.isActive;
     var activeParent = currentCellInfo.activeParent;
-    if (cell.isVertex())
-    {
-      if (isActive)
-      {
+    if (cell.isVertex()) {
+      if (isActive) {
         activeVertices[cell.id] = true;
-      }
-      else
-      {
+      } else {
         activeVertices[cell.id] = false;
       }
     }
@@ -682,15 +599,12 @@ mxWebColaAdaptor.prototype.findActiveVertices = function(graph)
     // child can be active only if any of its parents is not collapsed
     var isActive = isActive && !this.isLeafOrCollapsed(cell);
     var children = cell.children;
-    if (children != null && children.length > 0)
-    {
-      for (var i = 0; i < children.length; i++)
-      {
+    if (children != null && children.length > 0) {
+      for (var i = 0; i < children.length; i++) {
         var child = children[i];
-        var childActiveParent = isActive? child: activeParent;
+        var childActiveParent = isActive ? child : activeParent;
         cellsToExplore.push({vertex: child, isActive: isActive, activeParent: childActiveParent});
-        if (child.isVertex())
-        {
+        if (child.isVertex()) {
           inactiveToActiveMap[child.id] = childActiveParent.id;
         }
       }
@@ -699,37 +613,29 @@ mxWebColaAdaptor.prototype.findActiveVertices = function(graph)
   return {activeVertices: activeVertices, inactiveToActiveMap: inactiveToActiveMap};
 }
 
-mxWebColaAdaptor.prototype.getActiveVerticesInGroup = function(groupCell, activeVertices, includeCollapsedGroups)
+mxWebColaAdaptor.prototype.getActiveVerticesInGroup = function (groupCell, activeVertices, includeCollapsedGroups)
   /**
    * Scans all children in group and returns all active vertices inside group
    * This method is for creating redundant edges between members of groups to simulate group edges in WebCola
    * See https://github.com/tgdwyer/WebCola/issues/38
    * @param groupCell group cell
-   */
-{
+   */ {
   var activeChildren = [];
-  if (includeCollapsedGroups && this.isLeafOrCollapsed(groupCell))
-  {
+  if (includeCollapsedGroups && this.isLeafOrCollapsed(groupCell)) {
     activeChildren.push(groupCell);
   }
   var cellsToExplore = [groupCell];
-  while (cellsToExplore.length > 0)
-  {
+  while (cellsToExplore.length > 0) {
     var cell = cellsToExplore.shift();
-    if (!cell.isVertex() || !activeVertices[cell])
-    {
+    if (!cell.isVertex() || !activeVertices[cell]) {
       // cut at edge group, those are ignored
       continue;
     }
-    if (this.isLeafOrCollapsed(cell))
-    {
+    if (this.isLeafOrCollapsed(cell)) {
       activeChildren.push(cell);
-    }
-    else
-    {
+    } else {
       var children = cell.children;
-      if (children == null || children.length == 0)
-      {
+      if (children == null || children.length == 0) {
         continue;
       }
       cellsToExplore = cellsToExplore.concat(children);
@@ -738,37 +644,29 @@ mxWebColaAdaptor.prototype.getActiveVerticesInGroup = function(groupCell, active
   return activeChildren;
 }
 
-mxWebColaAdaptor.prototype.getAllVerticesInGroup = function(groupCell, includeCollapsedGroups)
+mxWebColaAdaptor.prototype.getAllVerticesInGroup = function (groupCell, includeCollapsedGroups)
   /**
    * Scans all children in group and returns all active vertices inside group
    * This method is for creating redundant edges between members of groups to simulate group edges in WebCola
    * See https://github.com/tgdwyer/WebCola/issues/38
    * @param groupCell group cell
-   */
-{
+   */ {
   var result = [];
-  if (includeCollapsedGroups && this.isLeafOrCollapsed(groupCell))
-  {
+  if (includeCollapsedGroups && this.isLeafOrCollapsed(groupCell)) {
     result.push(groupCell);
   }
   var cellsToExplore = [groupCell];
-  while (cellsToExplore.length > 0)
-  {
+  while (cellsToExplore.length > 0) {
     var cell = cellsToExplore.shift();
-    if (!cell.isVertex())
-    {
+    if (!cell.isVertex()) {
       // cut at edge group, those are ignored
       continue;
     }
-    if (this.isLeafOrCollapsed(cell))
-    {
+    if (this.isLeafOrCollapsed(cell)) {
       result.push(cell);
-    }
-    else
-    {
+    } else {
       var children = cell.children;
-      if (children == null || children.length == 0)
-      {
+      if (children == null || children.length == 0) {
         continue;
       }
       cellsToExplore = cellsToExplore.concat(children);
@@ -777,83 +675,70 @@ mxWebColaAdaptor.prototype.getAllVerticesInGroup = function(groupCell, includeCo
   return result;
 }
 
-mxWebColaAdaptor.prototype.hasVertexChildren = function(cell)
+mxWebColaAdaptor.prototype.hasVertexChildren = function (cell)
   /**
    * Returns true if a (group) cell has vertex children in its subtree
    * @param cell (group) cell
    * @returns true if if a (group) cell has vertex children in its subtree, false otherwise
-   */
-{
-  if (cell.children == null || cell.children.length == 0)
-  {
+   */ {
+  if (cell.children == null || cell.children.length == 0) {
     return false;
   }
   var toBeExamined = []
   toBeExamined = toBeExamined.concat(cell.children);
-  while (toBeExamined.length > 0)
-  {
+  while (toBeExamined.length > 0) {
     var cell = toBeExamined.shift();
     if (cell.isVertex())
       return true;
-    if (cell.children != null && cell.children.length > 0)
-    {
+    if (cell.children != null && cell.children.length > 0) {
       toBeExamined = toBeExamined.concat(cell.children);
     }
   }
   return false;
 }
 
-mxWebColaAdaptor.prototype.isInCollapsedTree = function(cell)
-{
+mxWebColaAdaptor.prototype.isInCollapsedTree = function (cell) {
   // scan the material path for collapsed group node
-  while (cell != null)
-  {
+  while (cell != null) {
     cell = cell.getParent();
-    if (cell != null && cell.isCollapsed())
-    {
+    if (cell != null && cell.isCollapsed()) {
       return true;
     }
   }
   return false;
 }
 
-mxWebColaAdaptor.prototype.isGroup = function(cell)
+mxWebColaAdaptor.prototype.isGroup = function (cell)
   /**
    * Returns true if cell is a group (has children)
    * @param cell cell
    * @returns true if cell is a group (has children); false otherwise
-   */
-{
+   */ {
   return cell.children != null && cell.children.length > 0;
 }
 
-mxWebColaAdaptor.prototype.addGroupConstraintLinks = function(groupA, groupB, activeVertices, inactiveToActiveMap, cellIds)
+mxWebColaAdaptor.prototype.addGroupConstraintLinks = function (groupA, groupB, activeVertices, inactiveToActiveMap, cellIds)
   /**
    * Adds edges between vertex and group or two groups. Each vertex child of a group must be connected to the vertex/
    * group, as this way WebCola simulates edges on the group level (as groups don't exist as vertices in WebCola)
    * @param rootCell root cell
-   */
-{
+   */ {
   var result = []
   // var childrenA = this.getActiveVerticesInGroup(groupA, activeVertices, false);
   // var childrenB = this.getActiveVerticesInGroup(groupB, activeVertices, false);
   var childrenA = [groupA];
   var childrenB = [groupB];
-  if (!groupA.isCollapsed())
-  {
+  if (!groupA.isCollapsed()) {
     childrenA = this.getAllVerticesInGroup(groupA, activeVertices, false);
   }
-  if (!groupB.isCollapsed())
-  {
+  if (!groupB.isCollapsed()) {
     childrenB = this.getAllVerticesInGroup(groupB, activeVertices, false);
   }
   if (childrenA == null || childrenA.length == 0 || childrenB == null || childrenB.length == 0)
     return result;
-  for (var i = 0; i < childrenA.length; i++)
-  {
+  for (var i = 0; i < childrenA.length; i++) {
     var childA_Id = inactiveToActiveMap[childrenA[i].id];
-    for (var j = 0; j < childrenB.length; j++)
-    {
+    for (var j = 0; j < childrenB.length; j++) {
       var childB_Id = inactiveToActiveMap[childrenB[j].id];
       var link = this.createLink(childA_Id, childB_Id, cellIds);
       result.push(link);
@@ -862,30 +747,25 @@ mxWebColaAdaptor.prototype.addGroupConstraintLinks = function(groupA, groupB, ac
   return result;
 }
 
-mxWebColaAdaptor.prototype.getUniqueLinks = function(links)
+mxWebColaAdaptor.prototype.getUniqueLinks = function (links)
   /**
    * Returns an array of unique links from an array of links
    * @param links array of links containing duplicate links
    * @returns array of unique links
-   */
-{
+   */ {
   var result = [];
   // TODO: this part is inefficient - O(n^2); Theta(n) should be possible with hashmap
-  for (var i = 0; i < links.length; i++)
-  {
+  for (var i = 0; i < links.length; i++) {
     var link = links[i];
     var shouldBeAdded = true;
-    for (var j = 0; j < result.length; j++)
-    {
+    for (var j = 0; j < result.length; j++) {
       var existingLink = result[j];
-      if (link.source == existingLink.source && link.target == existingLink.target)
-      {
+      if (link.source == existingLink.source && link.target == existingLink.target) {
         shouldBeAdded = false;
         break;
       }
     }
-    if (shouldBeAdded)
-    {
+    if (shouldBeAdded) {
       result.push(link);
     }
   }
@@ -894,15 +774,11 @@ mxWebColaAdaptor.prototype.getUniqueLinks = function(links)
 
 var doRendering = void 0;
 
-if ((typeof window === "undefined" ? "undefined" : typeof(window)) !== ( true ? "undefined" : typeof(undefined)))
-{
+if ((typeof window === "undefined" ? "undefined" : typeof (window)) !== (true ? "undefined" : typeof (undefined))) {
   doRendering = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame;
-}
-else
-{
+} else {
   // if not available, all you get is immediate calls
-  function doRendering(callback)
-  {
+  function doRendering(callback) {
     callback();
   };
 }
