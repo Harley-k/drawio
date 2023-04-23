@@ -14,8 +14,8 @@
 App = function (editor, container, lightbox) {
   const listener = mxUtils.bind(this, function (e) {
     const getData = e.data || {};
-    const {type, data, title} = getData
-    // console.log(type, data, title)
+    const {type, data, title,domain} = getData
+    localStorage.setItem('domain',domain)
 
     if (type == 'edit') {
       this.defaultFilename = title
@@ -40,26 +40,15 @@ App = function (editor, container, lightbox) {
       // console.log('xxx:', )
       // const svgString = new XMLSerializer().serializeToString(svgData);
       const svgString = Editor.createSvgDataUri(mxUtils.getXml(svgData))
-      console.log(svgString)
       const _canvas = document.createElement('canvas');
       _canvas.width = svgData.width.baseVal.value;
       _canvas.height = svgData.height.baseVal.value;
       top.postMessage({
         fileName, file: dom.innerHTML, pngBase64: svgString,
         type: 'submit'
-      })
-      const ctx = _canvas.getContext('2d');
-      const img = document.createElement('img');
-      img.src = svgString;
-      img.onload = () => {
-        ctx.drawImage(img, 0, 0);
-        const pngBase64 = _canvas.toDataURL('image/png');
-
-        // window.close()
-
-      };
+      },localStorage.getItem('domain'))
+      localStorage.clear()
     }
-
   })
   window.addEventListener('message', listener);
 
@@ -279,7 +268,7 @@ App.DROPBOX_URL = window.DRAWIO_BASE_URL + '/js/dropbox/Dropbox-sdk.min.js';
 /**
  * Sets URL to load the Dropbox dropins JS from.
  */
-App.DROPINS_URL = 'https://www.dropbox.com/static/api/2/dropins.js';
+// App.DROPINS_URL = window.DRAWIO_BASE_URL + '/js/dropbox/index.js';
 
 /**
  * OneDrive Client JS (file/folder picker). This is a slightly modified version to allow using accessTokens
@@ -513,7 +502,7 @@ App.getStoredMode = function () {
             if (App.mode == App.MODE_ONEDRIVE || (window.location.hash != null &&
               window.location.hash.substring(0, 2) == '#W')) {
               //Editor.oneDriveInlinePicker can be set with configuration which is done later, so load it all time
-              mxscript(App.ONEDRIVE_URL);
+              // mxscript(App.ONEDRIVE_URL);
             } else if (urlParams['chrome'] == '0') {
               window.OneDriveClient = null;
             }
@@ -531,7 +520,7 @@ App.getStoredMode = function () {
             if (App.mode == App.MODE_TRELLO || (window.location.hash != null &&
               window.location.hash.substring(0, 2) == '#T')) {
               mxscript(App.TRELLO_JQUERY_URL, function () {
-                mxscript(App.TRELLO_URL);
+                // mxscript(App.TRELLO_URL);
               });
             } else if (urlParams['chrome'] == '0') {
               window.TrelloClient = null;
@@ -702,10 +691,10 @@ App.main = function (callback, createUi) {
         (urlParams['chrome'] != '0' || urlParams['rt'] == '1') &&
         urlParams['stealth'] != '1' && urlParams['offline'] != '1') {
         // TODO: Check if async loading is fast enough
-        mxscript(App.PUSHER_URL);
+        // mxscript(App.PUSHER_URL);
 
         if (urlParams['fast-sync'] == '1') {
-          mxscript(App.SIMPLE_PEER_URL);
+          // mxscript(App.SIMPLE_PEER_URL);
         }
       }
 
@@ -879,7 +868,7 @@ App.main = function (callback, createUi) {
                     urlParams['od'] == '1')) && (navigator.userAgent == null ||
                     navigator.userAgent.indexOf('MSIE') < 0 || document.documentMode >= 10)))) {
                 //Editor.oneDriveInlinePicker can be set with configuration which is done later, so load it all time
-                mxscript(App.ONEDRIVE_URL, window.DrawOneDriveClientCallback);
+                // mxscript(App.ONEDRIVE_URL, window.DrawOneDriveClientCallback);
               }
               // Disables client
               else if (typeof window.OneDrive === 'undefined') {
@@ -891,6 +880,7 @@ App.main = function (callback, createUi) {
                 typeof window.Trello === 'undefined' && window.DrawTrelloClientCallback != null &&
                 urlParams['tr'] == '1' && (navigator.userAgent == null ||
                   navigator.userAgent.indexOf('MSIE') < 0 || document.documentMode >= 10)) {
+
                 mxscript(App.TRELLO_JQUERY_URL, function () {
                   // Must load this after the dropbox SDK since they use the same namespace
                   mxscript(App.TRELLO_URL, function () {
