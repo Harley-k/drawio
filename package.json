@@ -7,7 +7,7 @@
     "dev": "cd src/main/webapp && http-server ./",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "cd etc/build && ant",
-    "zip": "yarn build && cd src/main/webapp && tar -cvf draw.zip ./ && open ./"
+    "zip": "cd src/main/webapp && tar -cvf draw.zip ./ && open ./"
   },
   "repository": {
     "type": "git",
